@@ -1047,40 +1047,13 @@
           "200" : {
             "description" : "OK",
             "schema" : {
-              "type" : "object"
+              "$ref" : "#/definitions/CompletedOrdersResponse"
             }
           }
         },
         "security" : [ {
           "oauth2" : [ ]
         } ]
-      }
-    },
-    "/orders/{id}/complete" : {
-      "get" : {
-        "tags" : [ "Orders" ],
-        "summary" : "completed-customer-orders",
-        "operationId" : "get-orders-completed",
-        "consumes" : [ ],
-        "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
-        "parameters" : [ {
-          "name" : "id",
-          "in" : "path",
-          "description" : "Customer Id",
-          "required" : true,
-          "type" : "string"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "OK",
-            "schema" : {
-              "$ref" : "#/definitions/CompletedJobsResponse"
-            }
-          },
-          "404" : {
-            "description" : "NotFound"
-          }
-        }
       }
     },
     "/Orders" : {
@@ -2570,13 +2543,16 @@
         }
       }
     },
-    "CompletedJobsResponse" : {
-      "description" : "A CompletedJobsDto API Response",
+    "CompletedOrdersResponse" : {
+      "description" : "A List of Completed Orders",
       "type" : "object",
       "properties" : {
         "data" : {
-          "$ref" : "#/definitions/CompletedCustomerJobsDto",
-          "description" : "Gets or sets The payload of the response."
+          "description" : "Gets or sets The payload of the response.",
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/Orders"
+          }
         },
         "message" : {
           "description" : "Gets or sets Message of the response, maybe be empty.",
@@ -2584,6 +2560,94 @@
         },
         "status" : {
           "description" : "Gets or sets status of the API response.",
+          "type" : "string"
+        }
+      }
+    },
+    "Orders" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "format" : "int64",
+          "type" : "integer"
+        },
+        "number" : {
+          "type" : "string"
+        },
+        "created" : {
+          "format" : "int64",
+          "type" : "integer"
+        },
+        "poNumber" : {
+          "type" : "string"
+        },
+        "status" : {
+          "type" : "string"
+        },
+        "hasShipping" : {
+          "type" : "boolean"
+        },
+        "items" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/Item"
+          }
+        }
+      }
+    },
+    "Item" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "format" : "int64",
+          "type" : "integer"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "size" : {
+          "type" : "string"
+        },
+        "productCode" : {
+          "type" : "string"
+        },
+        "productName" : {
+          "type" : "string"
+        },
+        "thumbnail" : {
+          "type" : "string"
+        },
+        "tracking" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/Tracking"
+          }
+        },
+        "qty" : {
+          "format" : "int64",
+          "type" : "integer"
+        },
+        "status" : {
+          "type" : "string"
+        }
+      }
+    },
+    "Tracking" : {
+      "type" : "object",
+      "properties" : {
+        "trackingNo" : {
+          "type" : "string"
+        },
+        "firstName" : {
+          "type" : "string"
+        },
+        "lastName" : {
+          "type" : "string"
+        },
+        "address1" : {
+          "type" : "string"
+        },
+        "city" : {
           "type" : "string"
         }
       }
