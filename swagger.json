@@ -482,11 +482,13 @@
         "parameters" : [ {
           "name" : "cartId",
           "in" : "path",
+          "description" : "The Cart GUID",
           "required" : true,
           "type" : "string"
         }, {
           "name" : "itemId",
           "in" : "path",
+          "description" : "The Item GUID",
           "required" : true,
           "type" : "string"
         } ],
@@ -536,17 +538,15 @@
         "consumes" : [ ],
         "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters" : [ {
-          "name" : "pageObject.page",
+          "name" : "page",
           "in" : "query",
-          "description" : "The page to return",
-          "required" : false,
+          "required" : true,
           "type" : "integer",
           "format" : "int32"
         }, {
-          "name" : "pageObject.pageSize",
+          "name" : "pageSize",
           "in" : "query",
-          "description" : "The number of results to return",
-          "required" : false,
+          "required" : true,
           "type" : "integer",
           "format" : "int32"
         } ],
@@ -574,7 +574,7 @@
           "description" : "The Registration User Model",
           "required" : true,
           "schema" : {
-            "$ref" : "#/definitions/RegisterCustomerModel"
+            "$ref" : "#/definitions/RegisterUserRequestModel"
           }
         } ],
         "responses" : {
@@ -625,11 +625,11 @@
         "description" : "Puts the customer profile completing the sign-up process",
         "operationId" : "customer-update",
         "consumes" : [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
-        "produces" : [ ],
+        "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters" : [ {
           "name" : "id",
           "in" : "path",
-          "description" : "SL Accounty Number.",
+          "description" : "SL Account Number.",
           "required" : true,
           "type" : "string"
         }, {
@@ -644,9 +644,6 @@
         "responses" : {
           "200" : {
             "description" : "OK"
-          },
-          "204" : {
-            "description" : "No Content"
           },
           "404" : {
             "description" : "NotFound"
@@ -708,33 +705,6 @@
         }
       }
     },
-    "/customers/{id}/orders/complete" : {
-      "get" : {
-        "tags" : [ "Customers" ],
-        "summary" : "completed-customer-orders",
-        "operationId" : "get-orders-completed",
-        "consumes" : [ ],
-        "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
-        "parameters" : [ {
-          "name" : "id",
-          "in" : "path",
-          "description" : "Customer Id",
-          "required" : true,
-          "type" : "string"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "OK",
-            "schema" : {
-              "$ref" : "#/definitions/CompletedJobsResponse"
-            }
-          },
-          "404" : {
-            "description" : "NotFound"
-          }
-        }
-      }
-    },
     "/customers/{id}/orders" : {
       "get" : {
         "tags" : [ "Customers" ],
@@ -762,12 +732,12 @@
         }
       }
     },
-    "/customers/projectmanager" : {
+    "/customers/project-manager" : {
       "get" : {
         "tags" : [ "Customers" ],
         "summary" : "project-manager",
         "description" : "",
-        "operationId" : "project-manager",
+        "operationId" : "project-manager-get",
         "consumes" : [ ],
         "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
         "responses" : {
@@ -786,7 +756,7 @@
     "/customers/{id}/addresses" : {
       "get" : {
         "tags" : [ "Customers" ],
-        "summary" : "get-saved-addresses",
+        "summary" : "saved-addresses-get",
         "description" : "",
         "operationId" : "get-saved-addresses",
         "consumes" : [ ],
@@ -812,9 +782,9 @@
       },
       "post" : {
         "tags" : [ "Customers" ],
-        "summary" : "add-saved-address",
+        "summary" : "saved-address-add",
         "description" : "",
-        "operationId" : "add-saved-address",
+        "operationId" : "saved-address-add",
         "consumes" : [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
         "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters" : [ {
@@ -840,7 +810,7 @@
             }
           },
           "404" : {
-            "description" : "NotFoundNotFound"
+            "description" : "NotFound"
           }
         }
       }
@@ -942,7 +912,7 @@
         "tags" : [ "Members" ],
         "summary" : "update-member",
         "description" : "",
-        "operationId" : "update-member",
+        "operationId" : "member-update",
         "consumes" : [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
         "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters" : [ {
@@ -977,7 +947,7 @@
         "tags" : [ "Members" ],
         "summary" : "add-member",
         "description" : "",
-        "operationId" : "add-member",
+        "operationId" : "members-add",
         "consumes" : [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
         "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters" : [ {
@@ -1005,7 +975,7 @@
         "tags" : [ "Members" ],
         "summary" : "delete-member",
         "description" : "",
-        "operationId" : "delete-member",
+        "operationId" : "members-delete",
         "consumes" : [ ],
         "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters" : [ {
@@ -1058,12 +1028,67 @@
         }
       }
     },
+    "/orders/{customerId}/completed" : {
+      "get" : {
+        "tags" : [ "Orders" ],
+        "summary" : "Get Completed Orders",
+        "description" : "",
+        "operationId" : "orders-completed",
+        "consumes" : [ ],
+        "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
+        "parameters" : [ {
+          "name" : "customerId",
+          "in" : "path",
+          "description" : "The customer id",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "type" : "object"
+            }
+          }
+        },
+        "security" : [ {
+          "oauth2" : [ ]
+        } ]
+      }
+    },
+    "/orders/{id}/complete" : {
+      "get" : {
+        "tags" : [ "Orders" ],
+        "summary" : "completed-customer-orders",
+        "operationId" : "get-orders-completed",
+        "consumes" : [ ],
+        "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Customer Id",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/CompletedJobsResponse"
+            }
+          },
+          "404" : {
+            "description" : "NotFound"
+          }
+        }
+      }
+    },
     "/Orders" : {
       "get" : {
         "tags" : [ "Orders" ],
         "summary" : "Orders for the authenticated user",
         "description" : "Bearer token authenticated customer orders",
-        "operationId" : "Orders",
+        "operationId" : "orders-get",
         "consumes" : [ ],
         "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
         "responses" : {
@@ -1402,6 +1427,47 @@
         }
       }
     },
+    "CancellationToken" : {
+      "type" : "object",
+      "properties" : {
+        "isCancellationRequested" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "canBeCanceled" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "waitHandle" : {
+          "$ref" : "#/definitions/WaitHandle",
+          "readOnly" : true
+        }
+      }
+    },
+    "WaitHandle" : {
+      "type" : "object",
+      "properties" : {
+        "handle" : {
+          "type" : "object"
+        },
+        "safeWaitHandle" : {
+          "$ref" : "#/definitions/SafeWaitHandle"
+        }
+      }
+    },
+    "SafeWaitHandle" : {
+      "type" : "object",
+      "properties" : {
+        "isInvalid" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "isClosed" : {
+          "type" : "boolean",
+          "readOnly" : true
+        }
+      }
+    },
     "BooleanResponse" : {
       "description" : "An API response yielding a boolean",
       "type" : "object",
@@ -1425,19 +1491,24 @@
       "type" : "object",
       "properties" : {
         "data" : {
+          "description" : "The Data",
           "type" : "object"
         },
         "message" : {
+          "description" : "The Error Message",
           "type" : "string"
         },
         "moreInfo" : {
+          "description" : "Extended Information about the error",
           "type" : "string"
         },
         "code" : {
           "format" : "int32",
+          "description" : "The Error Code",
           "type" : "integer"
         },
         "status" : {
+          "description" : "The status of the request",
           "type" : "string"
         }
       }
@@ -1687,87 +1758,66 @@
       }
     },
     "PaymentModel" : {
-      "description" : "A data Model for the payment.",
       "type" : "object",
       "properties" : {
         "company" : {
-          "description" : "Gets or sets the company.",
           "type" : "string"
         },
         "cardNumber" : {
-          "description" : "Credut Card Number",
           "type" : "string"
         },
         "cardExpDate" : {
-          "description" : "Credit Card Experiation Date",
           "type" : "string"
         },
         "cardCode" : {
-          "description" : "Credit Card Security Code",
           "type" : "string"
         },
         "firstName" : {
-          "description" : "Cardholder First name",
           "type" : "string"
         },
         "lastName" : {
-          "description" : "Cardholder Last Name",
           "type" : "string"
         },
         "address" : {
-          "description" : "Cardholder Address line 1",
           "type" : "string"
         },
         "address2" : {
-          "description" : "Cardholder Address line 2",
           "type" : "string"
         },
         "city" : {
-          "description" : "City",
           "type" : "string"
         },
         "state" : {
-          "description" : "State",
           "type" : "string"
         },
         "zipCode" : {
-          "description" : "Zipcode",
           "type" : "string"
         },
         "email" : {
-          "description" : "Cardholder email",
           "type" : "string"
         },
         "billingSameAsShipping" : {
-          "description" : "Gets or sets a value indicating whether the billing address is the same as shipping.",
           "type" : "boolean"
         },
         "billingFirstName" : {
-          "description" : "Gets or sets the name of the billing first.",
           "type" : "string"
         },
         "billingLastName" : {
-          "description" : "Billing Last Name",
           "type" : "string"
         },
         "billingAddress" : {
-          "description" : "Billing Address line 1",
           "type" : "string"
         },
         "billingAddress2" : {
-          "description" : "Billing Address line 2",
           "type" : "string"
         },
         "billingCity" : {
-          "description" : "Billing City",
           "type" : "string"
         },
         "billingState" : {
-          "description" : "Billing State",
           "type" : "string"
         },
         "billingZipCode" : {
-          "description" : "Billing Zipcode",
           "type" : "string"
         }
       }
@@ -1825,31 +1875,19 @@
       }
     },
     "ContentPageModel" : {
+      "description" : "Model for a Contentful ContentPage",
       "type" : "object",
       "properties" : {
         "carousel" : {
+          "description" : "The Carousel Element",
           "type" : "string"
         },
         "grid" : {
+          "description" : "The Grid Elements",
           "type" : "array",
           "items" : {
             "type" : "string"
           }
-        }
-      }
-    },
-    "PageObject" : {
-      "type" : "object",
-      "properties" : {
-        "page" : {
-          "format" : "int32",
-          "description" : "The page to return",
-          "type" : "integer"
-        },
-        "pageSize" : {
-          "format" : "int32",
-          "description" : "The number of results to return",
-          "type" : "integer"
         }
       }
     },
@@ -1969,43 +2007,31 @@
         }
       }
     },
-    "RegisterCustomerModel" : {
-      "description" : "A data Model for the register customer.",
-      "required" : [ "firstName", "lastName", "email", "password" ],
+    "RegisterUserRequestModel" : {
       "type" : "object",
       "properties" : {
         "company" : {
-          "description" : "Gets or sets the company.",
           "type" : "string"
         },
         "firstName" : {
-          "description" : "Gets or sets the person's first name.",
           "type" : "string"
         },
         "lastName" : {
-          "description" : "Gets or sets the person's last name.",
           "type" : "string"
         },
         "phone" : {
-          "description" : "Gets or sets the phone.",
           "type" : "string"
         },
         "cell" : {
-          "description" : "Gets or sets the cell.",
           "type" : "string"
         },
         "email" : {
-          "description" : "Gets or sets the email.",
           "type" : "string"
         },
         "password" : {
-          "description" : "Gets or sets the password.",
-          "maxLength" : 35,
-          "minLength" : 8,
           "type" : "string"
         },
         "referrerId" : {
-          "description" : "Gets or sets the identifier of the referrer.",
           "type" : "string"
         }
       }
@@ -2162,115 +2188,6 @@
         "memberId" : {
           "format" : "int32",
           "type" : "integer"
-        }
-      }
-    },
-    "CompletedJobsResponse" : {
-      "description" : "A CompletedJobsDto API Response",
-      "type" : "object",
-      "properties" : {
-        "data" : {
-          "$ref" : "#/definitions/CompletedCustomerJobsDto",
-          "description" : "Gets or sets The payload of the response."
-        },
-        "message" : {
-          "description" : "Gets or sets Message of the response, maybe be empty.",
-          "type" : "string"
-        },
-        "status" : {
-          "description" : "Gets or sets status of the API response.",
-          "type" : "string"
-        }
-      }
-    },
-    "CompletedCustomerJobsDto" : {
-      "type" : "object",
-      "properties" : {
-        "invoices" : {
-          "type" : "array",
-          "items" : {
-            "$ref" : "#/definitions/GetCustomerCompletedJobsInvoiceResult"
-          }
-        },
-        "jobs" : {
-          "type" : "array",
-          "items" : {
-            "$ref" : "#/definitions/GetCustomerCompletedJobsOrderResult"
-          }
-        },
-        "packages" : {
-          "type" : "array",
-          "items" : {
-            "$ref" : "#/definitions/GetCustomerCompletedJobsShippingResult"
-          }
-        }
-      }
-    },
-    "GetCustomerCompletedJobsInvoiceResult" : {
-      "type" : "object",
-      "properties" : {
-        "invoiceId" : {
-          "format" : "int32",
-          "type" : "integer"
-        },
-        "orderId" : {
-          "type" : "string"
-        },
-        "designUploaded" : {
-          "type" : "boolean"
-        },
-        "hasShipping" : {
-          "type" : "boolean"
-        },
-        "allowReorder" : {
-          "type" : "boolean"
-        }
-      }
-    },
-    "GetCustomerCompletedJobsOrderResult" : {
-      "type" : "object",
-      "properties" : {
-        "jobId" : {
-          "type" : "string"
-        },
-        "itemId" : {
-          "format" : "int32",
-          "type" : "integer"
-        },
-        "invoiceId" : {
-          "format" : "int32",
-          "type" : "integer"
-        },
-        "curJLId" : {
-          "type" : "string"
-        },
-        "title" : {
-          "type" : "string"
-        },
-        "locationId" : {
-          "type" : "string"
-        },
-        "size" : {
-          "type" : "string"
-        },
-        "quantity" : {
-          "format" : "int32",
-          "type" : "integer"
-        },
-        "status" : {
-          "type" : "string"
-        }
-      }
-    },
-    "GetCustomerCompletedJobsShippingResult" : {
-      "type" : "object",
-      "properties" : {
-        "itemId" : {
-          "format" : "int32",
-          "type" : "integer"
-        },
-        "trackingNo" : {
-          "type" : "string"
         }
       }
     },
@@ -2463,6 +2380,9 @@
         "country" : {
           "type" : "string"
         },
+        "defaultAddress" : {
+          "type" : "boolean"
+        },
         "email" : {
           "type" : "string"
         },
@@ -2491,33 +2411,22 @@
       }
     },
     "SaveAddressRequest" : {
-      "description" : "The Request for a SavedAddress save operation",
-      "required" : [ "address1", "city", "state", "zipCode", "countryCode" ],
+      "required" : [ "country" ],
       "type" : "object",
       "properties" : {
-        "id" : {
-          "format" : "int32",
-          "description" : "The Id",
-          "type" : "integer"
-        },
         "firstName" : {
-          "description" : "The First Name",
           "type" : "string"
         },
         "lastName" : {
-          "description" : "Last Name of th saved address",
           "type" : "string"
         },
         "company" : {
-          "description" : "The Company of the saved address",
           "type" : "string"
         },
         "address1" : {
-          "description" : "The Address Line 1",
           "type" : "string"
         },
         "address2" : {
-          "description" : "The Address line 2",
           "type" : "string"
         },
         "city" : {
@@ -2529,7 +2438,7 @@
         "zipCode" : {
           "type" : "string"
         },
-        "countryCode" : {
+        "country" : {
           "type" : "string"
         },
         "phone" : {
@@ -2539,13 +2448,15 @@
           "type" : "string"
         },
         "email" : {
-          "description" : "The Email address",
           "type" : "string"
+        },
+        "defaultAddress" : {
+          "type" : "boolean"
         }
       }
     },
     "AddressResponse" : {
-      "description" : "An AddressDto API Response",
+      "description" : "An Address API Response",
       "type" : "object",
       "properties" : {
         "data" : {
@@ -2655,6 +2566,115 @@
         },
         "status" : {
           "description" : "Gets or sets status of the API response.",
+          "type" : "string"
+        }
+      }
+    },
+    "CompletedJobsResponse" : {
+      "description" : "A CompletedJobsDto API Response",
+      "type" : "object",
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/CompletedCustomerJobsDto",
+          "description" : "Gets or sets The payload of the response."
+        },
+        "message" : {
+          "description" : "Gets or sets Message of the response, maybe be empty.",
+          "type" : "string"
+        },
+        "status" : {
+          "description" : "Gets or sets status of the API response.",
+          "type" : "string"
+        }
+      }
+    },
+    "CompletedCustomerJobsDto" : {
+      "type" : "object",
+      "properties" : {
+        "invoices" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/GetCustomerCompletedJobsInvoiceResult"
+          }
+        },
+        "jobs" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/GetCustomerCompletedJobsOrderResult"
+          }
+        },
+        "packages" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/GetCustomerCompletedJobsShippingResult"
+          }
+        }
+      }
+    },
+    "GetCustomerCompletedJobsInvoiceResult" : {
+      "type" : "object",
+      "properties" : {
+        "invoiceId" : {
+          "format" : "int32",
+          "type" : "integer"
+        },
+        "orderId" : {
+          "type" : "string"
+        },
+        "designUploaded" : {
+          "type" : "boolean"
+        },
+        "hasShipping" : {
+          "type" : "boolean"
+        },
+        "allowReorder" : {
+          "type" : "boolean"
+        }
+      }
+    },
+    "GetCustomerCompletedJobsOrderResult" : {
+      "type" : "object",
+      "properties" : {
+        "jobId" : {
+          "type" : "string"
+        },
+        "itemId" : {
+          "format" : "int32",
+          "type" : "integer"
+        },
+        "invoiceId" : {
+          "format" : "int32",
+          "type" : "integer"
+        },
+        "curJLId" : {
+          "type" : "string"
+        },
+        "title" : {
+          "type" : "string"
+        },
+        "locationId" : {
+          "type" : "string"
+        },
+        "size" : {
+          "type" : "string"
+        },
+        "quantity" : {
+          "format" : "int32",
+          "type" : "integer"
+        },
+        "status" : {
+          "type" : "string"
+        }
+      }
+    },
+    "GetCustomerCompletedJobsShippingResult" : {
+      "type" : "object",
+      "properties" : {
+        "itemId" : {
+          "format" : "int32",
+          "type" : "integer"
+        },
+        "trackingNo" : {
           "type" : "string"
         }
       }
