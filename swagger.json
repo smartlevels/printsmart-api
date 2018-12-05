@@ -1047,7 +1047,7 @@
           "200" : {
             "description" : "OK",
             "schema" : {
-              "$ref" : "#/definitions/CompletedOrdersResponse"
+              "$ref" : "#/definitions/OrderHistoryResponse"
             }
           }
         },
@@ -1056,26 +1056,27 @@
         } ]
       }
     },
-    "/Orders" : {
+    "/orders/{customerId}/open" : {
       "get" : {
         "tags" : [ "Orders" ],
-        "summary" : "Orders for the authenticated user",
-        "description" : "Bearer token authenticated customer orders",
-        "operationId" : "orders-get",
+        "summary" : "Get Open Orders",
+        "description" : "",
+        "operationId" : "orders-open",
         "consumes" : [ ],
         "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
+        "parameters" : [ {
+          "name" : "customerId",
+          "in" : "path",
+          "description" : "The customer id",
+          "required" : true,
+          "type" : "string"
+        } ],
         "responses" : {
           "200" : {
             "description" : "OK",
             "schema" : {
-              "type" : "array",
-              "items" : {
-                "$ref" : "#/definitions/Invoice"
-              }
+              "$ref" : "#/definitions/OrderHistoryResponse"
             }
-          },
-          "204" : {
-            "description" : "NoContent"
           }
         },
         "security" : [ {
@@ -2543,15 +2544,15 @@
         }
       }
     },
-    "CompletedOrdersResponse" : {
-      "description" : "A List of Completed Orders",
+    "OrderHistoryResponse" : {
+      "description" : "A List of Completed OrderHistoryViewModel",
       "type" : "object",
       "properties" : {
         "data" : {
           "description" : "Gets or sets The payload of the response.",
           "type" : "array",
           "items" : {
-            "$ref" : "#/definitions/Orders"
+            "$ref" : "#/definitions/OrderHistoryViewModel"
           }
         },
         "message" : {
@@ -2564,7 +2565,7 @@
         }
       }
     },
-    "Orders" : {
+    "OrderHistoryViewModel" : {
       "type" : "object",
       "properties" : {
         "id" : {
