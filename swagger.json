@@ -153,6 +153,33 @@
         }
       }
     },
+    "/addresses/search/{address}" : {
+      "get" : {
+        "tags" : [ "Address" ],
+        "summary" : "Search for address",
+        "operationId" : "Calculate",
+        "consumes" : [ ],
+        "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
+        "parameters" : [ {
+          "name" : "address",
+          "in" : "path",
+          "description" : "",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/AddressSearchResponse"
+            }
+          },
+          "404" : {
+            "description" : "NotFound"
+          }
+        }
+      }
+    },
     "/carts/{id}" : {
       "get" : {
         "tags" : [ "Carts" ],
@@ -188,7 +215,7 @@
       "get" : {
         "tags" : [ "Carts" ],
         "summary" : "cart-by-customer-id",
-        "operationId" : "Cart By Customer Id",
+        "operationId" : "cart-by-customer-id",
         "consumes" : [ ],
         "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters" : [ {
@@ -225,7 +252,7 @@
         "tags" : [ "Carts" ],
         "summary" : "cart-items-by-id",
         "description" : "",
-        "operationId" : "Cart Items By Id",
+        "operationId" : "cart-items-by-cart-id",
         "consumes" : [ ],
         "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters" : [ {
@@ -286,7 +313,7 @@
         "tags" : [ "Carts" ],
         "summary" : "delete-cart",
         "description" : "Delete the cart",
-        "operationId" : "Post",
+        "operationId" : "cart-delete",
         "consumes" : [ ],
         "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters" : [ {
@@ -317,7 +344,7 @@
         "tags" : [ "Carts" ],
         "summary" : "add-cart-item",
         "description" : "Adds a ShopCart Item",
-        "operationId" : "AddToCart",
+        "operationId" : "cart-add-item",
         "consumes" : [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
         "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters" : [ {
@@ -360,9 +387,9 @@
     "/carts/{id}/update" : {
       "put" : {
         "tags" : [ "Carts" ],
-        "summary" : "update-cart-item",
+        "summary" : "cart-update-item",
         "description" : "",
-        "operationId" : "UpdateItemInCart",
+        "operationId" : "cart-update-item",
         "consumes" : [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
         "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters" : [ {
@@ -407,7 +434,7 @@
         "tags" : [ "Carts" ],
         "summary" : "cart-checkout",
         "description" : "Checkout the cart by guid",
-        "operationId" : "Checkout",
+        "operationId" : "cart-checkout",
         "consumes" : [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
         "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters" : [ {
@@ -446,7 +473,7 @@
         "tags" : [ "Carts" ],
         "summary" : "cart-calculate",
         "description" : "",
-        "operationId" : "Calculate",
+        "operationId" : "cart-calculate",
         "consumes" : [ ],
         "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters" : [ {
@@ -475,8 +502,8 @@
     "/carts/{cartId}/item/{itemId}" : {
       "delete" : {
         "tags" : [ "Carts" ],
-        "summary" : "",
-        "operationId" : "RemoveCartItem",
+        "summary" : "cart-remove-item",
+        "operationId" : "cart-remove-tem",
         "consumes" : [ ],
         "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters" : [ {
@@ -1031,8 +1058,8 @@
     "/orders/{customerId}/completed" : {
       "get" : {
         "tags" : [ "Orders" ],
-        "summary" : "Get Completed Orders",
-        "description" : "",
+        "summary" : "orders-completed",
+        "description" : "Get Completed Orders",
         "operationId" : "orders-completed",
         "consumes" : [ ],
         "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
@@ -1059,8 +1086,8 @@
     "/orders/{customerId}/open" : {
       "get" : {
         "tags" : [ "Orders" ],
-        "summary" : "Get Open Orders",
-        "description" : "",
+        "summary" : "orders-open",
+        "description" : "Get Open Orders",
         "operationId" : "orders-open",
         "consumes" : [ ],
         "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
@@ -1077,6 +1104,69 @@
             "schema" : {
               "$ref" : "#/definitions/OrderHistoryResponse"
             }
+          }
+        },
+        "security" : [ {
+          "oauth2" : [ ]
+        } ]
+      }
+    },
+    "/orders/{customerId}/stop" : {
+      "post" : {
+        "tags" : [ "Orders" ],
+        "summary" : "job-stop",
+        "description" : "Stop an active customer job",
+        "operationId" : "orders-job-stop",
+        "consumes" : [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
+        "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
+        "parameters" : [ {
+          "name" : "customerId",
+          "in" : "path",
+          "description" : "The customer id",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "stopJobRequest",
+          "in" : "body",
+          "description" : "Request to stop a job",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/StopJobRequest"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/BooleanResponse"
+            }
+          }
+        },
+        "security" : [ {
+          "oauth2" : [ ]
+        } ]
+      }
+    },
+    "/Orders" : {
+      "get" : {
+        "tags" : [ "Orders" ],
+        "summary" : "Orders for the authenticated user",
+        "description" : "Bearer token authenticated customer orders",
+        "operationId" : "orders-get",
+        "consumes" : [ ],
+        "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Invoice"
+              }
+            }
+          },
+          "204" : {
+            "description" : "NoContent"
           }
         },
         "security" : [ {
@@ -1161,7 +1251,7 @@
       "get" : {
         "tags" : [ "Products" ],
         "summary" : "Product Details and Charges",
-        "operationId" : "Get Product By Id",
+        "operationId" : "product-by-id",
         "consumes" : [ ],
         "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters" : [ {
@@ -1176,6 +1266,33 @@
             "description" : "OK",
             "schema" : {
               "$ref" : "#/definitions/ProductResponse"
+            }
+          },
+          "404" : {
+            "description" : "NotFound"
+          }
+        }
+      }
+    },
+    "/products/{id}/variation" : {
+      "get" : {
+        "tags" : [ "Products" ],
+        "summary" : "Get Product Variation Data",
+        "operationId" : "product-variation-by-id",
+        "consumes" : [ ],
+        "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The Product Id with a variation suffix",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/ProductVariationResponse"
             }
           },
           "404" : {
@@ -1366,10 +1483,13 @@
   },
   "definitions" : {
     "UserModel" : {
-      "required" : [ "userName", "password" ],
+      "required" : [ "userName", "email", "password" ],
       "type" : "object",
       "properties" : {
         "userName" : {
+          "type" : "string"
+        },
+        "email" : {
           "type" : "string"
         },
         "password" : {
@@ -1566,6 +1686,148 @@
         },
         "status" : {
           "description" : "Gets or sets status of the API response.",
+          "type" : "string"
+        }
+      }
+    },
+    "AddressSearchResponse" : {
+      "description" : "Response for autocomplete search and Address validation",
+      "type" : "object",
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/AddressSearchResult",
+          "description" : "Gets or sets The payload of the response."
+        },
+        "message" : {
+          "description" : "Gets or sets Message of the response, maybe be empty.",
+          "type" : "string"
+        },
+        "status" : {
+          "description" : "Gets or sets status of the API response.",
+          "type" : "string"
+        }
+      }
+    },
+    "AddressSearchResult" : {
+      "type" : "object",
+      "properties" : {
+        "location" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/Location"
+          }
+        }
+      }
+    },
+    "Location" : {
+      "type" : "object",
+      "properties" : {
+        "address" : {
+          "$ref" : "#/definitions/Address"
+        },
+        "geometry" : {
+          "$ref" : "#/definitions/Geometry"
+        },
+        "totalUnitCount" : {
+          "format" : "int64",
+          "type" : "integer"
+        },
+        "ranges" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/Range"
+          }
+        }
+      }
+    },
+    "Address" : {
+      "type" : "object",
+      "properties" : {
+        "formattedAddress" : {
+          "type" : "string"
+        },
+        "mainAddressLine" : {
+          "type" : "string"
+        },
+        "addressLastLine" : {
+          "type" : "string"
+        },
+        "placeName" : {
+          "type" : "string"
+        },
+        "areaName1" : {
+          "type" : "string"
+        },
+        "areaName2" : {
+          "type" : "string"
+        },
+        "areaName3" : {
+          "type" : "string"
+        },
+        "areaName4" : {
+          "type" : "string"
+        },
+        "postCode" : {
+          "format" : "int64",
+          "type" : "integer"
+        },
+        "postCodeExt" : {
+          "type" : "string"
+        },
+        "country" : {
+          "type" : "string"
+        },
+        "addressNumber" : {
+          "format" : "int64",
+          "type" : "integer"
+        },
+        "streetName" : {
+          "type" : "string"
+        },
+        "unitType" : {
+          "type" : "string"
+        },
+        "unitValue" : {
+          "type" : "string"
+        }
+      }
+    },
+    "Geometry" : {
+      "type" : "object",
+      "properties" : {
+        "type" : {
+          "type" : "string"
+        },
+        "coordinates" : {
+          "type" : "array",
+          "items" : {
+            "format" : "double",
+            "type" : "number"
+          }
+        }
+      }
+    },
+    "Range" : {
+      "type" : "object",
+      "properties" : {
+        "placeName" : {
+          "type" : "string"
+        },
+        "units" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/Unit"
+          }
+        }
+      }
+    },
+    "Unit" : {
+      "type" : "object",
+      "properties" : {
+        "unitInfo" : {
+          "type" : "string"
+        },
+        "formattedUnitAddress" : {
           "type" : "string"
         }
       }
@@ -2653,93 +2915,17 @@
         }
       }
     },
-    "CompletedCustomerJobsDto" : {
-      "type" : "object",
-      "properties" : {
-        "invoices" : {
-          "type" : "array",
-          "items" : {
-            "$ref" : "#/definitions/GetCustomerCompletedJobsInvoiceResult"
-          }
-        },
-        "jobs" : {
-          "type" : "array",
-          "items" : {
-            "$ref" : "#/definitions/GetCustomerCompletedJobsOrderResult"
-          }
-        },
-        "packages" : {
-          "type" : "array",
-          "items" : {
-            "$ref" : "#/definitions/GetCustomerCompletedJobsShippingResult"
-          }
-        }
-      }
-    },
-    "GetCustomerCompletedJobsInvoiceResult" : {
-      "type" : "object",
-      "properties" : {
-        "invoiceId" : {
-          "format" : "int32",
-          "type" : "integer"
-        },
-        "orderId" : {
-          "type" : "string"
-        },
-        "designUploaded" : {
-          "type" : "boolean"
-        },
-        "hasShipping" : {
-          "type" : "boolean"
-        },
-        "allowReorder" : {
-          "type" : "boolean"
-        }
-      }
-    },
-    "GetCustomerCompletedJobsOrderResult" : {
+    "StopJobRequest" : {
       "type" : "object",
       "properties" : {
         "jobId" : {
           "type" : "string"
         },
-        "itemId" : {
+        "reasonId" : {
           "format" : "int32",
           "type" : "integer"
         },
-        "invoiceId" : {
-          "format" : "int32",
-          "type" : "integer"
-        },
-        "curJLId" : {
-          "type" : "string"
-        },
-        "title" : {
-          "type" : "string"
-        },
-        "locationId" : {
-          "type" : "string"
-        },
-        "size" : {
-          "type" : "string"
-        },
-        "quantity" : {
-          "format" : "int32",
-          "type" : "integer"
-        },
-        "status" : {
-          "type" : "string"
-        }
-      }
-    },
-    "GetCustomerCompletedJobsShippingResult" : {
-      "type" : "object",
-      "properties" : {
-        "itemId" : {
-          "format" : "int32",
-          "type" : "integer"
-        },
-        "trackingNo" : {
+        "reasonText" : {
           "type" : "string"
         }
       }
@@ -2937,6 +3123,214 @@
         },
         "formulaData" : {
           "type" : "string"
+        }
+      }
+    },
+    "ProductVariationResponse" : {
+      "description" : "A Product Variation API Response",
+      "type" : "object",
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/ProductVariation",
+          "description" : "Gets or sets The payload of the response."
+        },
+        "message" : {
+          "description" : "Gets or sets Message of the response, maybe be empty.",
+          "type" : "string"
+        },
+        "status" : {
+          "description" : "Gets or sets status of the API response.",
+          "type" : "string"
+        }
+      }
+    },
+    "ProductVariation" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "format" : "int64",
+          "type" : "integer"
+        },
+        "productId" : {
+          "type" : "string"
+        },
+        "sku" : {
+          "type" : "string"
+        },
+        "variationData" : {
+          "type" : "string"
+        },
+        "product" : {
+          "$ref" : "#/definitions/Product"
+        }
+      }
+    },
+    "Product" : {
+      "type" : "object",
+      "properties" : {
+        "bleed" : {
+          "format" : "double",
+          "type" : "number"
+        },
+        "calcMethodId" : {
+          "format" : "int32",
+          "type" : "integer"
+        },
+        "chargeExclusions" : {
+          "type" : "string"
+        },
+        "chargeIds" : {
+          "type" : "string"
+        },
+        "chargeOverrides" : {
+          "type" : "string"
+        },
+        "createdBy" : {
+          "type" : "string"
+        },
+        "createdOn" : {
+          "format" : "date-time",
+          "type" : "string"
+        },
+        "designer" : {
+          "type" : "boolean"
+        },
+        "dividerLength" : {
+          "format" : "double",
+          "type" : "number"
+        },
+        "dividerWidth" : {
+          "format" : "double",
+          "type" : "number"
+        },
+        "foldHeight" : {
+          "format" : "double",
+          "type" : "number"
+        },
+        "foldWidth" : {
+          "format" : "double",
+          "type" : "number"
+        },
+        "friendlyName" : {
+          "type" : "string"
+        },
+        "friendlySize" : {
+          "type" : "string"
+        },
+        "height" : {
+          "format" : "double",
+          "type" : "number"
+        },
+        "imageUrl" : {
+          "type" : "string"
+        },
+        "info" : {
+          "type" : "string"
+        },
+        "mandatoryChargeIds" : {
+          "type" : "string"
+        },
+        "maxHeight" : {
+          "format" : "double",
+          "type" : "number"
+        },
+        "maxTurnTime" : {
+          "format" : "int32",
+          "type" : "integer"
+        },
+        "maxWidth" : {
+          "format" : "double",
+          "type" : "number"
+        },
+        "minHeight" : {
+          "format" : "double",
+          "type" : "number"
+        },
+        "minTurnTime" : {
+          "format" : "int32",
+          "type" : "integer"
+        },
+        "minWidth" : {
+          "format" : "double",
+          "type" : "number"
+        },
+        "partNo" : {
+          "type" : "string"
+        },
+        "printType" : {
+          "format" : "int32",
+          "type" : "integer"
+        },
+        "prodCatId" : {
+          "type" : "string"
+        },
+        "prodFeatures" : {
+          "type" : "string"
+        },
+        "prodSubCatCode" : {
+          "type" : "string"
+        },
+        "prodSubCatDesc" : {
+          "type" : "string"
+        },
+        "prodSubCatId" : {
+          "type" : "string"
+        },
+        "productionLineId" : {
+          "format" : "int32",
+          "type" : "integer"
+        },
+        "productionType" : {
+          "type" : "string"
+        },
+        "quantities" : {
+          "type" : "string"
+        },
+        "rank" : {
+          "format" : "int32",
+          "type" : "integer"
+        },
+        "safeArea" : {
+          "format" : "double",
+          "type" : "number"
+        },
+        "status" : {
+          "type" : "string"
+        },
+        "taxStatus" : {
+          "format" : "int32",
+          "type" : "integer"
+        },
+        "templateId" : {
+          "type" : "string"
+        },
+        "unitId" : {
+          "format" : "int32",
+          "type" : "integer"
+        },
+        "updatedBy" : {
+          "type" : "string"
+        },
+        "updatedOn" : {
+          "format" : "date-time",
+          "type" : "string"
+        },
+        "vars" : {
+          "type" : "string"
+        },
+        "version" : {
+          "format" : "int32",
+          "type" : "integer"
+        },
+        "width" : {
+          "format" : "double",
+          "type" : "number"
+        },
+        "productVariations" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/ProductVariation"
+          }
         }
       }
     },
