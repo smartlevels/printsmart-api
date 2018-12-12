@@ -1349,7 +1349,7 @@
     "/workorder/invoice/{id}" : {
       "get" : {
         "tags" : [ "WorkOrders" ],
-        "summary" : "Get a list if workorders by invoice id",
+        "summary" : "Get a list of workorders by invoice id",
         "operationId" : "workorder-by-invoice",
         "consumes" : [ ],
         "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
