@@ -157,7 +157,7 @@
       "get" : {
         "tags" : [ "Address" ],
         "summary" : "Search for address",
-        "operationId" : "Calculate",
+        "operationId" : "address-search",
         "consumes" : [ ],
         "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters" : [ {
@@ -1115,7 +1115,7 @@
       "post" : {
         "tags" : [ "Orders" ],
         "summary" : "job-stop",
-        "description" : "Stop an active customer job",
+        "description" : "Stop an active customer job\r\n            Valid ReasonId are:\r\n            <c>\r\n             1 - Need To adjust quantity\r\n             2 - Change Coating Type\r\n             3 - Modify Turnaround\r\n             4 - Replace/Upload New Files\r\n            -1 - Other\r\n            </c>",
         "operationId" : "orders-job-stop",
         "consumes" : [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
         "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
@@ -1483,13 +1483,19 @@
   },
   "definitions" : {
     "UserModel" : {
-      "required" : [ "userName", "email", "password" ],
+      "required" : [ "userName", "email", "firstName", "lastName", "password" ],
       "type" : "object",
       "properties" : {
         "userName" : {
           "type" : "string"
         },
         "email" : {
+          "type" : "string"
+        },
+        "firstName" : {
+          "type" : "string"
+        },
+        "lastName" : {
           "type" : "string"
         },
         "password" : {
