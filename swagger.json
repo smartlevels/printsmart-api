@@ -1382,16 +1382,22 @@
         "operationId" : "authenticate",
         "summary" : "Authenticate",
         "parameters" : [ {
-          "name" : "body",
           "in" : "body",
-          "schema" : { }
+          "name" : "user",
+          "description" : "The user to login.",
+          "schema" : {
+            "$ref" : "#/definitions/LoginRequest"
+          }
         } ],
         "consumes" : [ "application/x-www-form-urlencoded" ],
         "responses" : {
           "200" : {
-            "description" : "Authentication Token Data",
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/TokenResponse"
+            },
             "examples" : {
-              "application/json" : "{\n    \"access_token\": \"adfa...sdf\",\n    \"token_type\": \"bearer\",\n    \"expires_in\": 17999,\n    \"refresh_token\": \"lrIcbpp..NWM\",\n    \"full_name\": \"John Doe\",\n    \"contact_id\": \"CT123456\",\n    \"customer_id\": \"SL98745\",\n    \".issued\": \"Sun, 07 Oct 2019 02:22:50 GMT\",\n    \".expires\": \"Sun, 07 Oct 2019 07:22:50 GMT\""
+              "application/json" : "{\n    \"access_token\": \"adfa...sdf\",\n    \"token_type\": \"bearer\",\n    \"expires_in\": 17999,\n    \"refresh_token\": \"lrIcbpp..NWM\",\n    \"full_name\": \"John Doe\",\n    \"contact_id\": \"CT123456\",\n    \"customer_id\": \"SL98745\",\n    \".issued\": \"Sun, 07 Oct 2019 02:22:50 GMT\",\n    \".expires\": \"Sun, 07 Oct 2019 07:22:50 GMT\"\n}"
             }
           }
         },
@@ -3594,6 +3600,56 @@
           "type" : "integer"
         },
         "memberName" : {
+          "type" : "string"
+        }
+      }
+    },
+    "TokenResponse" : {
+      "type" : "object",
+      "properties" : {
+        "access_token" : {
+          "type" : "string"
+        },
+        "token_type" : {
+          "type" : "string"
+        },
+        "expires_in" : {
+          "format" : "int32",
+          "type" : "integer"
+        },
+        "refresh_token" : {
+          "type" : "string"
+        },
+        "full_name" : {
+          "type" : "string"
+        },
+        "contact_id" : {
+          "type" : "string"
+        },
+        "customer_id" : {
+          "type" : "string"
+        },
+        ".issued" : {
+          "type" : "string"
+        },
+        ".expires" : {
+          "type" : "string"
+        }
+      }
+    },
+    "LoginRequest" : {
+      "type" : "object",
+      "properties" : {
+        "grant_type" : {
+          "type" : "string"
+        },
+        "username" : {
+          "type" : "string"
+        },
+        "password" : {
+          "type" : "string"
+        },
+        "client_id" : {
           "type" : "string"
         }
       }
