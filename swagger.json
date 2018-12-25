@@ -1384,6 +1384,7 @@
         "parameters" : [ {
           "in" : "body",
           "name" : "user",
+          "required" : true,
           "description" : "The user to login.",
           "schema" : {
             "$ref" : "#/definitions/LoginRequest"
@@ -2743,6 +2744,7 @@
       }
     },
     "Member" : {
+      "description" : "A PrintSmart Member",
       "type" : "object",
       "properties" : {
         "email" : {
@@ -2805,8 +2807,7 @@
       "type" : "object",
       "properties" : {
         "data" : {
-          "$ref" : "#/definitions/Member",
-          "description" : "Gets or sets The payload of the response."
+          "$ref" : "#/definitions/Member"
         },
         "message" : {
           "description" : "Gets or sets Message of the response, maybe be empty.",
