@@ -1391,6 +1391,7 @@
           }
         } ],
         "consumes" : [ "application/x-www-form-urlencoded" ],
+        "produces" : [ "application/json" ],
         "responses" : {
           "200" : {
             "description" : "OK",
@@ -1401,8 +1402,7 @@
               "application/json" : "{\n    \"access_token\": \"adfa...sdf\",\n    \"token_type\": \"bearer\",\n    \"expires_in\": 17999,\n    \"refresh_token\": \"lrIcbpp..NWM\",\n    \"full_name\": \"John Doe\",\n    \"contact_id\": \"CT123456\",\n    \"customer_id\": \"SL98745\",\n    \".issued\": \"Sun, 07 Oct 2019 02:22:50 GMT\",\n    \".expires\": \"Sun, 07 Oct 2019 07:22:50 GMT\"\n}"
             }
           }
-        },
-        "produces" : [ "application/json" ]
+        }
       }
     },
     "/shipping-estimate" : {
@@ -2744,7 +2744,6 @@
       }
     },
     "Member" : {
-      "description" : "A PrintSmart Member",
       "type" : "object",
       "properties" : {
         "email" : {
@@ -2807,7 +2806,8 @@
       "type" : "object",
       "properties" : {
         "data" : {
-          "$ref" : "#/definitions/Member"
+          "$ref" : "#/definitions/Member",
+          "description" : "Gets or sets The payload of the response."
         },
         "message" : {
           "description" : "Gets or sets Message of the response, maybe be empty.",
