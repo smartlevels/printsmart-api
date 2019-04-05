@@ -28,15 +28,15 @@
     "/account/register" : {
       "post" : {
         "tags" : [ "Account" ],
-        "summary" : "register",
-        "description" : "Registers the user with PrintSmart",
+        "summary" : "Register a PrintSmart User.",
+        "description" : "Registers the user with PrintSmart.",
         "operationId" : "register",
         "consumes" : [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
         "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters" : [ {
           "name" : "userModel",
           "in" : "body",
-          "description" : "The user to register",
+          "description" : "The user to register.",
           "required" : true,
           "schema" : {
             "$ref" : "#/definitions/UserModel"
@@ -52,20 +52,20 @@
         }
       }
     },
-    "/account/reset-password" : {
+    "/account/change-password" : {
       "post" : {
         "tags" : [ "Account" ],
-        "summary" : "reset-password",
-        "operationId" : "password-reset",
+        "summary" : "change-password.",
+        "operationId" : "password-change",
         "consumes" : [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
         "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters" : [ {
           "name" : "value",
           "in" : "body",
-          "description" : "The password reset model",
+          "description" : "The password\r\n                                                                                           reset model.",
           "required" : true,
           "schema" : {
-            "$ref" : "#/definitions/ResetPasswordRequestModel"
+            "$ref" : "#/definitions/ChangePasswordRequestModel"
           }
         } ],
         "responses" : {
@@ -87,18 +87,87 @@
         } ]
       }
     },
+    "/account/forgot-password" : {
+      "post" : {
+        "tags" : [ "Account" ],
+        "summary" : "forgot-password.",
+        "operationId" : "forgot-password",
+        "consumes" : [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
+        "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
+        "parameters" : [ {
+          "name" : "request",
+          "in" : "body",
+          "description" : "The password\r\n                                                                                           reset model.",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/ForgotPasswordRequestModel"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/BooleanResponse"
+            }
+          },
+          "404" : {
+            "description" : "NotFound",
+            "schema" : {
+              "$ref" : "#/definitions/ApiError"
+            }
+          }
+        }
+      }
+    },
+    "/account/reset-password/{token}" : {
+      "post" : {
+        "tags" : [ "Account" ],
+        "summary" : "reset-password.",
+        "operationId" : "reset-password",
+        "consumes" : [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
+        "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
+        "parameters" : [ {
+          "name" : "token",
+          "in" : "path",
+          "description" : "The valid token to reset the password",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "request",
+          "in" : "body",
+          "description" : "The password\r\n                                                                                           reset model.",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/ResetPasswordRequestModel"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/BooleanResponse"
+            }
+          },
+          "404" : {
+            "description" : "NotFound",
+            "schema" : {
+              "$ref" : "#/definitions/ApiError"
+            }
+          }
+        }
+      }
+    },
     "/account/add-contact" : {
       "post" : {
         "tags" : [ "Account" ],
-        "summary" : "add-contact",
-        "description" : "",
-        "operationId" : "add-contact",
+        "summary" : "contact-add",
+        "operationId" : "contact-add",
         "consumes" : [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
         "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters" : [ {
           "name" : "contact",
           "in" : "body",
-          "description" : "",
+          "description" : "A ContactDto",
           "required" : true,
           "schema" : {
             "$ref" : "#/definitions/ContactDto"
@@ -123,15 +192,14 @@
     "/account/update-contact" : {
       "post" : {
         "tags" : [ "Account" ],
-        "summary" : "update-contact",
-        "description" : "",
+        "summary" : "contact-update",
         "operationId" : "update-contact",
         "consumes" : [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
         "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters" : [ {
           "name" : "contact",
           "in" : "body",
-          "description" : "Contact data",
+          "description" : "Contact data.",
           "required" : true,
           "schema" : {
             "$ref" : "#/definitions/ContactDto"
@@ -156,14 +224,14 @@
     "/addresses/search/{address}" : {
       "get" : {
         "tags" : [ "Address" ],
-        "summary" : "Search for address",
+        "summary" : "Search for address.",
         "operationId" : "address-search",
         "consumes" : [ ],
         "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters" : [ {
           "name" : "address",
           "in" : "path",
-          "description" : "",
+          "description" : "String address to search",
           "required" : true,
           "type" : "string"
         } ],
@@ -175,7 +243,10 @@
             }
           },
           "404" : {
-            "description" : "NotFound"
+            "description" : "NotFound",
+            "schema" : {
+              "$ref" : "#/definitions/ApiError"
+            }
           }
         }
       }
@@ -184,7 +255,7 @@
       "get" : {
         "tags" : [ "Carts" ],
         "summary" : "cart-by-id",
-        "description" : "(Restricted to Logged in users) gets the shopping result using the given\r\nidentifier.",
+        "description" : "(Restricted to Logged in users) gets the shopping result using the given identifier.",
         "operationId" : "cart-by-id",
         "consumes" : [ ],
         "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
@@ -221,7 +292,7 @@
         "parameters" : [ {
           "name" : "id",
           "in" : "path",
-          "description" : "The customer id eg. SL12345",
+          "description" : "The customer id eg. SL12345.",
           "required" : true,
           "type" : "string"
         } ],
@@ -359,7 +430,7 @@
           "description" : "The item to add to the shopping cart.",
           "required" : true,
           "schema" : {
-            "$ref" : "#/definitions/ShopCartItem"
+            "$ref" : "#/definitions/ShopCartItemDto"
           }
         } ],
         "responses" : {
@@ -429,6 +500,42 @@
         } ]
       }
     },
+    "/carts/{cartId}/item/{itemId}" : {
+      "delete" : {
+        "tags" : [ "Carts" ],
+        "summary" : "cart-remove-item",
+        "operationId" : "cart-remove-tem",
+        "consumes" : [ ],
+        "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
+        "parameters" : [ {
+          "name" : "cartId",
+          "in" : "path",
+          "description" : "The Cart GUID.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "itemId",
+          "in" : "path",
+          "description" : "The Item GUID.",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/StringResponse"
+            }
+          },
+          "404" : {
+            "description" : "NotFound"
+          }
+        },
+        "security" : [ {
+          "oauth2" : [ ]
+        } ]
+      }
+    },
     "/carts/{id}/checkout" : {
       "post" : {
         "tags" : [ "Carts" ],
@@ -449,7 +556,7 @@
           "description" : "The Payment Details of the Card.",
           "required" : true,
           "schema" : {
-            "$ref" : "#/definitions/PaymentModel"
+            "$ref" : "#/definitions/CheckoutRequest"
           }
         } ],
         "responses" : {
@@ -488,42 +595,6 @@
             "description" : "OK",
             "schema" : {
               "$ref" : "#/definitions/CheckoutResult"
-            }
-          },
-          "404" : {
-            "description" : "NotFound"
-          }
-        },
-        "security" : [ {
-          "oauth2" : [ ]
-        } ]
-      }
-    },
-    "/carts/{cartId}/item/{itemId}" : {
-      "delete" : {
-        "tags" : [ "Carts" ],
-        "summary" : "cart-remove-item",
-        "operationId" : "cart-remove-tem",
-        "consumes" : [ ],
-        "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
-        "parameters" : [ {
-          "name" : "cartId",
-          "in" : "path",
-          "description" : "The Cart GUID",
-          "required" : true,
-          "type" : "string"
-        }, {
-          "name" : "itemId",
-          "in" : "path",
-          "description" : "The Item GUID",
-          "required" : true,
-          "type" : "string"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "OK",
-            "schema" : {
-              "$ref" : "#/definitions/StringResponse"
             }
           },
           "404" : {
@@ -638,7 +709,7 @@
           "200" : {
             "description" : "OK",
             "schema" : {
-              "$ref" : "#/definitions/CustomerViewModel"
+              "$ref" : "#/definitions/CustomerProfileResponse"
             }
           },
           "404" : {
@@ -696,6 +767,70 @@
           },
           "204" : {
             "description" : "No Content"
+          },
+          "404" : {
+            "description" : "NotFound"
+          }
+        }
+      }
+    },
+    "/customers/{id}/remove-payment-profiles" : {
+      "post" : {
+        "tags" : [ "Customers" ],
+        "summary" : "payment-profile-delete",
+        "description" : "Deletes the customer payment profile.",
+        "operationId" : "paymentProfile-delete",
+        "consumes" : [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
+        "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "SL Account Number.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "customer",
+          "in" : "body",
+          "description" : "",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/DeletePaymentProfileRequest"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/BooleanResponse"
+            }
+          },
+          "404" : {
+            "description" : "NotFound"
+          }
+        }
+      }
+    },
+    "/customers/{id}/payment-profiles" : {
+      "post" : {
+        "tags" : [ "Customers" ],
+        "summary" : "payment-profiles",
+        "description" : "Gets authorize.net  customer payment profile.",
+        "operationId" : "getPaymentProfiles",
+        "consumes" : [ ],
+        "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "SL Account Number.",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/PaymentProfileResponse"
+            }
           },
           "404" : {
             "description" : "NotFound"
@@ -805,7 +940,10 @@
           "404" : {
             "description" : "NotFound"
           }
-        }
+        },
+        "security" : [ {
+          "oauth2" : [ ]
+        } ]
       },
       "post" : {
         "tags" : [ "Customers" ],
@@ -839,7 +977,10 @@
           "404" : {
             "description" : "NotFound"
           }
-        }
+        },
+        "security" : [ {
+          "oauth2" : [ ]
+        } ]
       }
     },
     "/customers/{id}/addresses/{addressId}" : {
@@ -882,7 +1023,10 @@
           "404" : {
             "description" : "NotFound"
           }
-        }
+        },
+        "security" : [ {
+          "oauth2" : [ ]
+        } ]
       },
       "delete" : {
         "tags" : [ "Customers" ],
@@ -915,15 +1059,50 @@
           "404" : {
             "description" : "NotFound"
           }
-        }
+        },
+        "security" : [ {
+          "oauth2" : [ ]
+        } ]
+      }
+    },
+    "/invoice/download" : {
+      "post" : {
+        "tags" : [ "Customers" ],
+        "summary" : "Get a pdf with the order details",
+        "operationId" : "download-invoice",
+        "consumes" : [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
+        "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
+        "parameters" : [ {
+          "name" : "order",
+          "in" : "body",
+          "description" : "",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/OrderDetailsPdfDto"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "type" : "object"
+            }
+          },
+          "404" : {
+            "description" : "NotFound"
+          }
+        },
+        "security" : [ {
+          "oauth2" : [ ]
+        } ]
       }
     },
     "/members" : {
       "get" : {
         "tags" : [ "Members" ],
-        "summary" : "get-members",
-        "description" : "Get PrintSmart Members",
-        "operationId" : "get-members",
+        "summary" : "members-get",
+        "description" : "Get PrintSmart Members.",
+        "operationId" : "members-get",
         "consumes" : [ ],
         "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
         "responses" : {
@@ -937,22 +1116,21 @@
       },
       "put" : {
         "tags" : [ "Members" ],
-        "summary" : "update-member",
-        "description" : "",
-        "operationId" : "member-update",
+        "summary" : "member-update",
+        "operationId" : "members-update",
         "consumes" : [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
         "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters" : [ {
           "name" : "id",
           "in" : "query",
-          "description" : "The member id to update",
+          "description" : "The member id to update.",
           "required" : true,
           "type" : "integer",
           "format" : "int32"
         }, {
           "name" : "member",
           "in" : "body",
-          "description" : "The new member data",
+          "description" : "The new member data.",
           "required" : true,
           "schema" : {
             "$ref" : "#/definitions/AddMemberRequest"
@@ -972,15 +1150,14 @@
       },
       "post" : {
         "tags" : [ "Members" ],
-        "summary" : "add-member",
-        "description" : "",
+        "summary" : "members-add",
         "operationId" : "members-add",
         "consumes" : [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
         "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters" : [ {
           "name" : "member",
           "in" : "body",
-          "description" : "",
+          "description" : "The new member data.",
           "required" : true,
           "schema" : {
             "$ref" : "#/definitions/AddMemberRequest"
@@ -1000,15 +1177,14 @@
       },
       "delete" : {
         "tags" : [ "Members" ],
-        "summary" : "delete-member",
-        "description" : "",
+        "summary" : "members-delete",
         "operationId" : "members-delete",
         "consumes" : [ ],
         "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters" : [ {
           "name" : "id",
           "in" : "query",
-          "description" : "",
+          "description" : "The member id to update.",
           "required" : true,
           "type" : "integer",
           "format" : "int32"
@@ -1030,8 +1206,8 @@
       "get" : {
         "tags" : [ "Members" ],
         "summary" : "member-by-id",
-        "description" : "PrintSmart Member by id",
-        "operationId" : "member-by-id",
+        "description" : "PrintSmart Member by id.",
+        "operationId" : "members-by-id",
         "consumes" : [ ],
         "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters" : [ {
@@ -1047,6 +1223,35 @@
             "description" : "OK",
             "schema" : {
               "$ref" : "#/definitions/MemberResponse"
+            }
+          },
+          "404" : {
+            "description" : "NotFound"
+          }
+        }
+      }
+    },
+    "/members/{id}/merchantPublicKey" : {
+      "get" : {
+        "tags" : [ "Members" ],
+        "summary" : "member-by-id",
+        "description" : "PrintSmart Member by id.",
+        "operationId" : "members-client-key",
+        "consumes" : [ ],
+        "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The member id.",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int32"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/StringResponse"
             }
           },
           "404" : {
@@ -1178,13 +1383,15 @@
       "post" : {
         "tags" : [ "Partner" ],
         "summary" : "Refresh The Token used to access marko rubel.",
-        "description" : "Larry Rivera, 8/21/2018.",
         "operationId" : "Token",
         "consumes" : [ ],
         "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
         "responses" : {
           "200" : {
-            "description" : "OK"
+            "description" : "OK",
+            "schema" : {
+              "type" : "string"
+            }
           },
           "404" : {
             "description" : "NotFound"
@@ -1221,7 +1428,6 @@
       "post" : {
         "tags" : [ "Partner" ],
         "summary" : "Tags MRM with Dynamic Tag.",
-        "description" : "Larry Rivera, 8/21/2018.",
         "operationId" : "TagContact",
         "consumes" : [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
         "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
@@ -1301,22 +1507,72 @@
         }
       }
     },
-    "/NShipping/Estimate" : {
+    "/shipping/{zipCode}/cart/{cartId}" : {
       "get" : {
         "tags" : [ "Shipping" ],
-        "summary" : "Gets the estimate.",
-        "description" : "Larry Rivera, 8/21/2018.",
-        "operationId" : "GetEstimate",
+        "summary" : "Gives an delivery cart estimation using Fedex web services",
+        "operationId" : "estimate-cart-shipping",
         "consumes" : [ ],
         "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
+        "parameters" : [ {
+          "name" : "cartId",
+          "in" : "path",
+          "description" : "",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "zipCode",
+          "in" : "path",
+          "description" : "",
+          "required" : true,
+          "type" : "string"
+        } ],
         "responses" : {
           "200" : {
             "description" : "OK"
           },
-          "404" : {
-            "description" : "NotFound"
+          "400" : {
+            "description" : "BadRequest"
           }
-        }
+        },
+        "security" : [ {
+          "oauth2" : [ ]
+        } ]
+      }
+    },
+    "/shipping/{zipCode}" : {
+      "post" : {
+        "tags" : [ "Shipping" ],
+        "summary" : "Estimate a item using the Fedex web services",
+        "operationId" : "estimate-shipping",
+        "consumes" : [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
+        "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
+        "parameters" : [ {
+          "name" : "zipCode",
+          "in" : "path",
+          "description" : "",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "item",
+          "in" : "body",
+          "description" : "",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/ShopCartItem"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          },
+          "400" : {
+            "description" : "BadRequest"
+          }
+        },
+        "security" : [ {
+          "oauth2" : [ ]
+        } ]
       }
     },
     "/workorder/{id}" : {
@@ -1412,118 +1668,43 @@
           }
         }
       }
-    },
-    "/shipping-estimate" : {
-      "post" : {
-        "description" : "estimate-shipping",
-        "operationId" : "estimate-shipping",
-        "summary" : "estimate-shipping",
-        "tags" : [ "Shipping" ],
-        "parameters" : [ {
-          "name" : "shippingBody",
-          "in" : "body",
-          "schema" : {
-            "$ref" : "#/definitions/ShippingBody"
-          },
-          "description" : "Json with ZipCode Product ID OptionID Quantity Turnaround Days with and height"
-        } ],
-        "consumes" : [ "application/json" ],
-        "responses" : {
-          "200" : {
-            "description" : "array of delivery options",
-            "examples" : {
-              "application/json" : {
-                "d" : [ {
-                  "__type" : "ShippingOption",
-                  "Id" : "FEDEXGROUND",
-                  "Name" : "FedEx Ground",
-                  "Cost" : 9.46,
-                  "Date" : "2018-09-16T02:01:34.126Z"
-                }, {
-                  "__type" : "ShippingOption",
-                  "Id" : "FEDEXEXPRESSSAVER",
-                  "Name" : "FedEx Express Saver",
-                  "Cost" : 17.86,
-                  "Date" : "2018-09-19T23:30:00Z"
-                }, {
-                  "__type" : "ShippingOption",
-                  "Id" : "FEDEX2DAY",
-                  "Name" : "FedEx 2 Day",
-                  "Cost" : 20.25,
-                  "Date" : "2018-09-18T23:30:00Z"
-                }, {
-                  "__type" : "ShippingOption",
-                  "Id" : "FEDEX2DAYAM",
-                  "Name" : "FedEx 2 Day AM",
-                  "Cost" : 22.12,
-                  "Date" : "2018-09-18T17:30:00Z"
-                }, {
-                  "__type" : "ShippingOption",
-                  "Id" : "STANDARDOVERNIGHT",
-                  "Name" : "Standard Overnight",
-                  "Cost" : 34.64,
-                  "Date" : "2018-09-17T22:00:00Z"
-                }, {
-                  "__type" : "ShippingOption",
-                  "Id" : "PRIORITYOVERNIGHT",
-                  "Name" : "Priority Overnight",
-                  "Cost" : 36.73,
-                  "Date" : "2018-09-17T17:30:00Z"
-                }, {
-                  "__type" : "ShippingOption",
-                  "Id" : "PRIORITYOVERNIGHT_SAT",
-                  "Name" : "Priority Overnight",
-                  "Cost" : 54.09,
-                  "Date" : "2018-09-15T19:00:00Z"
-                }, {
-                  "__type" : "ShippingOption",
-                  "Id" : "FIRSTOVERNIGHT",
-                  "Name" : "First Overnight",
-                  "Cost" : 69.28,
-                  "Date" : "2018-09-17T15:00:00Z"
-                }, {
-                  "__type" : "ShippingOption",
-                  "Id" : "FIRSTOVERNIGHT_SAT",
-                  "Name" : "First Overnight",
-                  "Cost" : 86.64,
-                  "Date" : "2018-09-15T16:30:00Z"
-                } ]
-              }
-            }
-          }
-        },
-        "produces" : [ "application/json" ]
-      }
     }
   },
   "definitions" : {
     "UserModel" : {
+      "description" : "A data Model for the user.",
       "required" : [ "userName", "email", "firstName", "lastName", "password" ],
       "type" : "object",
       "properties" : {
         "userName" : {
+          "description" : "Gets or sets the name of the user.",
           "type" : "string"
         },
         "email" : {
+          "description" : "Gets or sets the email.",
           "type" : "string"
         },
         "firstName" : {
+          "description" : "Gets or sets the person's first name.",
           "type" : "string"
         },
         "lastName" : {
+          "description" : "Gets or sets the person's last name.",
           "type" : "string"
         },
         "password" : {
+          "description" : "Gets or sets the password.",
           "maxLength" : 100,
           "minLength" : 6,
           "type" : "string"
         },
         "confirmPassword" : {
+          "description" : "Gets or sets the confirm password.",
           "type" : "string"
         }
       }
     },
-    "ResetPasswordRequestModel" : {
+    "ChangePasswordRequestModel" : {
       "description" : "Model for Password Reset Request",
       "required" : [ "password", "confirmPassword" ],
       "type" : "object",
@@ -1539,47 +1720,6 @@
           "maxLength" : 35,
           "minLength" : 8,
           "type" : "string"
-        }
-      }
-    },
-    "CancellationToken" : {
-      "type" : "object",
-      "properties" : {
-        "isCancellationRequested" : {
-          "type" : "boolean",
-          "readOnly" : true
-        },
-        "canBeCanceled" : {
-          "type" : "boolean",
-          "readOnly" : true
-        },
-        "waitHandle" : {
-          "$ref" : "#/definitions/WaitHandle",
-          "readOnly" : true
-        }
-      }
-    },
-    "WaitHandle" : {
-      "type" : "object",
-      "properties" : {
-        "handle" : {
-          "type" : "object"
-        },
-        "safeWaitHandle" : {
-          "$ref" : "#/definitions/SafeWaitHandle"
-        }
-      }
-    },
-    "SafeWaitHandle" : {
-      "type" : "object",
-      "properties" : {
-        "isInvalid" : {
-          "type" : "boolean",
-          "readOnly" : true
-        },
-        "isClosed" : {
-          "type" : "boolean",
-          "readOnly" : true
         }
       }
     },
@@ -1624,6 +1764,30 @@
         },
         "status" : {
           "description" : "The status of the request",
+          "type" : "string"
+        }
+      }
+    },
+    "ForgotPasswordRequestModel" : {
+      "type" : "object",
+      "properties" : {
+        "email" : {
+          "type" : "string"
+        }
+      }
+    },
+    "ResetPasswordRequestModel" : {
+      "required" : [ "password", "confirmPassword" ],
+      "type" : "object",
+      "properties" : {
+        "password" : {
+          "maxLength" : 35,
+          "minLength" : 8,
+          "type" : "string"
+        },
+        "confirmPassword" : {
+          "maxLength" : 35,
+          "minLength" : 8,
           "type" : "string"
         }
       }
@@ -1906,6 +2070,14 @@
         },
         "orderId" : {
           "type" : "string"
+        },
+        "total" : {
+          "format" : "double",
+          "type" : "number"
+        },
+        "tax" : {
+          "format" : "double",
+          "type" : "number"
         }
       }
     },
@@ -1991,6 +2163,114 @@
         },
         "userId" : {
           "type" : "string"
+        },
+        "configurator" : {
+          "$ref" : "#/definitions/ShopCartItemConfigurator"
+        },
+        "createdOn" : {
+          "format" : "date-time",
+          "type" : "string"
+        },
+        "updatedOn" : {
+          "format" : "date-time",
+          "type" : "string"
+        },
+        "isTaxable" : {
+          "type" : "boolean"
+        }
+      }
+    },
+    "ShopCartItemConfigurator" : {
+      "type" : "object",
+      "properties" : {
+        "chargeCategories" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/ChargeCategory"
+          }
+        },
+        "quantities" : {
+          "type" : "array",
+          "items" : {
+            "format" : "int64",
+            "type" : "integer"
+          }
+        },
+        "turnarounds" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        }
+      }
+    },
+    "ChargeCategory" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "order" : {
+          "format" : "int64",
+          "type" : "integer"
+        },
+        "selectMode" : {
+          "enum" : [ "Single", "Multiple" ],
+          "type" : "string"
+        },
+        "required" : {
+          "type" : "boolean"
+        },
+        "charges" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/Charge"
+          }
+        }
+      }
+    },
+    "Charge" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "categoryId" : {
+          "type" : "string"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "rank" : {
+          "format" : "int64",
+          "type" : "integer"
+        },
+        "exclusions" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "formulaData" : {
+          "type" : "string"
+        }
+      }
+    },
+    "ShopCartItemDto" : {
+      "type" : "object",
+      "properties" : {
+        "numberOfSets" : {
+          "format" : "int32",
+          "type" : "integer"
+        },
+        "cartItem" : {
+          "$ref" : "#/definitions/ShopCartItem"
         }
       }
     },
@@ -2014,20 +2294,17 @@
         }
       }
     },
-    "PaymentModel" : {
+    "CheckoutRequest" : {
       "type" : "object",
       "properties" : {
-        "company" : {
+        "customerPaymentProfileId" : {
           "type" : "string"
         },
-        "cardNumber" : {
+        "nonce" : {
           "type" : "string"
         },
-        "cardExpDate" : {
-          "type" : "string"
-        },
-        "cardCode" : {
-          "type" : "string"
+        "storePayment" : {
+          "type" : "boolean"
         },
         "firstName" : {
           "type" : "string"
@@ -2097,18 +2374,22 @@
       }
     },
     "CartCalculationResult" : {
+      "description" : "Encapsulates the result of a cart calculation.",
       "type" : "object",
       "properties" : {
         "subtotal" : {
           "format" : "double",
+          "description" : "Gets or sets the subtotal.",
           "type" : "number"
         },
         "tax" : {
           "format" : "double",
+          "description" : "Gets or sets the tax.",
           "type" : "number"
         },
         "total" : {
           "format" : "double",
+          "description" : "Gets or sets the number of.",
           "type" : "number"
         }
       }
@@ -2261,6 +2542,10 @@
         "status" : {
           "description" : "Status of the Account",
           "type" : "boolean"
+        },
+        "customerProfileId" : {
+          "description" : "Gets or sets the customer profile.",
+          "type" : "string"
         }
       }
     },
@@ -2325,6 +2610,24 @@
         }
       }
     },
+    "CustomerProfileResponse" : {
+      "description" : "A customer profile response.",
+      "type" : "object",
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/CustomerViewModel",
+          "description" : "Gets or sets The payload of the response."
+        },
+        "message" : {
+          "description" : "Gets or sets Message of the response, maybe be empty.",
+          "type" : "string"
+        },
+        "status" : {
+          "description" : "Gets or sets status of the API response.",
+          "type" : "string"
+        }
+      }
+    },
     "CustomerProfileModel" : {
       "description" : "CustomerProfileModel",
       "type" : "object",
@@ -2358,6 +2661,75 @@
           "type" : "string"
         },
         "doNotSolicit" : {
+          "type" : "boolean"
+        }
+      }
+    },
+    "DeletePaymentProfileRequest" : {
+      "description" : "A delete payment profile request.",
+      "type" : "object",
+      "properties" : {
+        "customerProfileId" : {
+          "description" : "Gets or sets the identifier of the customer profile.",
+          "type" : "string"
+        },
+        "customerPaymentProfileId" : {
+          "description" : "Gets or sets the identifier of the customer payment profile.",
+          "type" : "string"
+        }
+      }
+    },
+    "PaymentProfileResponse" : {
+      "description" : "A payment profile response.",
+      "type" : "object",
+      "properties" : {
+        "data" : {
+          "description" : "Gets or sets The payload of the response.",
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/CustomerPaymentProfile"
+          }
+        },
+        "message" : {
+          "description" : "Gets or sets Message of the response, maybe be empty.",
+          "type" : "string"
+        },
+        "status" : {
+          "description" : "Gets or sets status of the API response.",
+          "type" : "string"
+        }
+      }
+    },
+    "CustomerPaymentProfile" : {
+      "type" : "object",
+      "properties" : {
+        "paymentProfileId" : {
+          "type" : "string"
+        },
+        "customerProfileId" : {
+          "type" : "string"
+        },
+        "defaultPaymentProfile" : {
+          "type" : "boolean"
+        },
+        "payment" : {
+          "$ref" : "#/definitions/MaskedPayment"
+        }
+      }
+    },
+    "MaskedPayment" : {
+      "type" : "object",
+      "properties" : {
+        "cardNumber" : {
+          "type" : "string"
+        },
+        "cardType" : {
+          "type" : "string"
+        },
+        "isPaymentToken" : {
+          "type" : "boolean"
+        },
+        "isPaymentTokenSpecified" : {
           "type" : "boolean"
         }
       }
@@ -2445,6 +2817,9 @@
         "memberId" : {
           "format" : "int32",
           "type" : "integer"
+        },
+        "customerProfileId" : {
+          "type" : "string"
         }
       }
     },
@@ -2730,6 +3105,15 @@
         }
       }
     },
+    "OrderDetailsPdfDto" : {
+      "type" : "object",
+      "properties" : {
+        "orderId" : {
+          "format" : "int32",
+          "type" : "integer"
+        }
+      }
+    },
     "MemberCollectionResponse" : {
       "description" : "An API response yielding a collection of Members",
       "type" : "object",
@@ -2913,6 +3297,9 @@
         },
         "status" : {
           "type" : "string"
+        },
+        "isStoppable" : {
+          "type" : "boolean"
         }
       }
     },
@@ -2947,6 +3334,163 @@
           "type" : "integer"
         },
         "reasonText" : {
+          "type" : "string"
+        }
+      }
+    },
+    "MRMUser" : {
+      "description" : "A MarkoRubel Marketing Infusionsoft user.",
+      "type" : "object",
+      "properties" : {
+        "emailAddresses" : {
+          "description" : "Gets or sets the email addresses.",
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/MRMEmailAddress"
+          }
+        },
+        "emailOptedIn" : {
+          "description" : "Gets or sets a value indicating whether the email opted in.",
+          "type" : "boolean"
+        },
+        "addresses" : {
+          "description" : "Gets or sets the addresses.",
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/MRMAddress"
+          }
+        },
+        "lastUpdated" : {
+          "format" : "date-time",
+          "description" : "Gets or sets the Date/Time of the last updated.",
+          "type" : "string"
+        },
+        "tagIds" : {
+          "description" : "Gets or sets a list of identifiers of the tags.",
+          "type" : "array",
+          "items" : {
+            "format" : "int32",
+            "type" : "integer"
+          }
+        },
+        "ownerId" : {
+          "format" : "int32",
+          "description" : "Gets or sets the identifier that owns this item.",
+          "type" : "integer"
+        },
+        "dateCreated" : {
+          "format" : "date-time",
+          "description" : "Gets or sets the Date/Time of the date created.",
+          "type" : "string"
+        },
+        "middleName" : {
+          "description" : "Gets or sets the person's middle name.",
+          "type" : "string"
+        },
+        "givenName" : {
+          "description" : "Gets or sets the name of the given.",
+          "type" : "string"
+        },
+        "emailStatus" : {
+          "description" : "Gets or sets the email status.",
+          "type" : "string"
+        },
+        "phoneNumbers" : {
+          "description" : "Gets or sets the phone numbers.",
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/MRMPhoneNumber"
+          }
+        },
+        "company" : {
+          "description" : "Gets or sets the company.",
+          "type" : "string"
+        },
+        "id" : {
+          "format" : "int32",
+          "description" : "Gets or sets the identifier.",
+          "type" : "integer"
+        },
+        "familyName" : {
+          "description" : "Gets or sets the name of the family.",
+          "type" : "string"
+        }
+      }
+    },
+    "MRMEmailAddress" : {
+      "description" : "A mrm email address.",
+      "type" : "object",
+      "properties" : {
+        "email" : {
+          "description" : "Gets or sets the email.",
+          "type" : "string"
+        },
+        "field" : {
+          "description" : "Gets or sets the field.",
+          "type" : "string"
+        }
+      }
+    },
+    "MRMAddress" : {
+      "description" : "A mrm address.",
+      "type" : "object",
+      "properties" : {
+        "line1" : {
+          "description" : "Gets or sets the line 1.",
+          "type" : "string"
+        },
+        "line2" : {
+          "description" : "Gets or sets the line 2.",
+          "type" : "string"
+        },
+        "locality" : {
+          "description" : "Gets or sets the locality.",
+          "type" : "string"
+        },
+        "region" : {
+          "description" : "Gets or sets the region.",
+          "type" : "string"
+        },
+        "field" : {
+          "description" : "Gets or sets the field.",
+          "type" : "string"
+        },
+        "postalCode" : {
+          "description" : "Gets or sets the postal code.",
+          "type" : "string"
+        },
+        "zipCode" : {
+          "description" : "Gets or sets the zip code.",
+          "type" : "string"
+        },
+        "zipFour" : {
+          "description" : "Gets or sets the zip four.",
+          "type" : "string"
+        },
+        "countyCode" : {
+          "description" : "Gets or sets the county code.",
+          "type" : "string"
+        }
+      }
+    },
+    "MRMPhoneNumber" : {
+      "description" : "A mrm phone number.",
+      "type" : "object",
+      "properties" : {
+        "number" : {
+          "description" : "Gets or sets the number of.",
+          "type" : "string"
+        },
+        "extension" : {
+          "description" : "Gets or sets the extension.",
+          "type" : "string"
+        },
+        "field" : {
+          "description" : "Gets or sets the field.",
+          "type" : "string"
+        },
+        "type" : {
+          "description" : "Gets or sets the type.",
           "type" : "string"
         }
       }
@@ -3086,64 +3630,30 @@
         "bleed" : {
           "format" : "double",
           "type" : "number"
+        },
+        "dimensionBoundaries" : {
+          "$ref" : "#/definitions/CustomDimensions"
         }
       }
     },
-    "ChargeCategory" : {
+    "CustomDimensions" : {
       "type" : "object",
       "properties" : {
-        "id" : {
-          "type" : "string"
+        "minHeight" : {
+          "format" : "double",
+          "type" : "number"
         },
-        "name" : {
-          "type" : "string"
+        "maxHeight" : {
+          "format" : "double",
+          "type" : "number"
         },
-        "description" : {
-          "type" : "string"
+        "minWidth" : {
+          "format" : "double",
+          "type" : "number"
         },
-        "order" : {
-          "format" : "int64",
-          "type" : "integer"
-        },
-        "selectMode" : {
-          "enum" : [ "Single", "Multiple" ],
-          "type" : "string"
-        },
-        "required" : {
-          "type" : "boolean"
-        },
-        "charges" : {
-          "type" : "array",
-          "items" : {
-            "$ref" : "#/definitions/Charge"
-          }
-        }
-      }
-    },
-    "Charge" : {
-      "type" : "object",
-      "properties" : {
-        "id" : {
-          "type" : "string"
-        },
-        "categoryId" : {
-          "type" : "string"
-        },
-        "name" : {
-          "type" : "string"
-        },
-        "rank" : {
-          "format" : "int64",
-          "type" : "integer"
-        },
-        "exclusions" : {
-          "type" : "array",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "formulaData" : {
-          "type" : "string"
+        "maxWidth" : {
+          "format" : "double",
+          "type" : "number"
         }
       }
     },
@@ -3662,9 +4172,6 @@
           "type" : "string"
         }
       }
-    },
-    "ShippingBody" : {
-      "example" : "{\"zipCode\":\"92805\",\"productId\":\"PS235\",\"optionIds\":\"CS202,CS198,CS232,CS246\",\"qty\":250,\"turnDays\":3,\"width\":4.25,\"height\":2.75}"
     }
   }
 }
