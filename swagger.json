@@ -1370,8 +1370,8 @@
           "required" : true,
           "type" : "string"
         }, {
-          "name" : "designJobRequest",
           "in" : "body",
+          "name" : "designJobRequest",
           "description" : "The request to update",
           "required" : true,
           "schema" : {
@@ -3395,6 +3395,10 @@
         },
         "filePath" : {
           "type" : "string"
+        },
+        "thumbnailsNumber" : {
+          "format" : "int32",
+          "type" : "integer"
         }
       }
     },
