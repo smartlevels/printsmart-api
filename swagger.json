@@ -336,37 +336,6 @@
         } ]
       }
     },
-    "/carts/create" : {
-      "post" : {
-        "tags" : [ "Carts" ],
-        "summary" : "cart-create",
-        "description" : "Creates a Shopping cart for a the current user.",
-        "operationId" : "cart-create",
-        "consumes" : [ ],
-        "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
-        "parameters" : [ ],
-        "responses" : {
-          "200" : {
-            "description" : "OK",
-            "schema" : {
-              "type" : "object"
-            }
-          },
-          "201" : {
-            "description" : "Created",
-            "schema" : {
-              "$ref" : "#/definitions/StringResponse"
-            }
-          },
-          "304" : {
-            "description" : "NotModified"
-          }
-        },
-        "security" : [ {
-          "oauth2" : [ ]
-        } ]
-      }
-    },
     "/carts/{id}/delete" : {
       "delete" : {
         "tags" : [ "Carts" ],
@@ -398,7 +367,7 @@
         } ]
       }
     },
-    "/carts/{id}/add" : {
+    "/carts/add" : {
       "post" : {
         "tags" : [ "Carts" ],
         "summary" : "add-cart-item",
@@ -407,14 +376,8 @@
         "consumes" : [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
         "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters" : [ {
-          "name" : "id",
-          "in" : "path",
-          "description" : "Shop Cart GUID",
-          "required" : true,
-          "type" : "string"
-        }, {
-          "in" : "body",
           "name" : "model",
+          "in" : "body",
           "description" : "The item to add to the shopping cart.",
           "required" : true,
           "schema" : {
@@ -3397,8 +3360,8 @@
           "type" : "string"
         },
         "thumbnailsNumber" : {
-          "format" : "int32",
-          "type" : "integer"
+          "type" : "integer",
+          "format" : "int32"
         }
       }
     },
