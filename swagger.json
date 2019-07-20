@@ -21,8 +21,8 @@
         "consumes" : [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
         "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters" : [ {
-          "in" : "body",
           "name" : "userModel",
+          "in" : "body",
           "description" : "The user to register.",
           "required" : true,
           "schema" : {
@@ -47,8 +47,8 @@
         "consumes" : [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
         "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters" : [ {
-          "in" : "body",
           "name" : "value",
+          "in" : "body",
           "description" : "The password\r\n                                                                                           reset model.",
           "required" : true,
           "schema" : {
@@ -82,8 +82,8 @@
         "consumes" : [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
         "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters" : [ {
-          "in" : "body",
           "name" : "request",
+          "in" : "body",
           "description" : "The password\r\n                                                                                           reset model.",
           "required" : true,
           "schema" : {
@@ -120,8 +120,8 @@
           "required" : true,
           "type" : "string"
         }, {
-          "in" : "body",
           "name" : "request",
+          "in" : "body",
           "description" : "The password\r\n                                                                                           reset model.",
           "required" : true,
           "schema" : {
@@ -152,8 +152,8 @@
         "consumes" : [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
         "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters" : [ {
-          "in" : "body",
           "name" : "contact",
+          "in" : "body",
           "description" : "A ContactDto",
           "required" : true,
           "schema" : {
@@ -184,8 +184,8 @@
         "consumes" : [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
         "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters" : [ {
-          "in" : "body",
           "name" : "contact",
+          "in" : "body",
           "description" : "Contact data.",
           "required" : true,
           "schema" : {
@@ -421,8 +421,8 @@
           "required" : true,
           "type" : "string"
         }, {
-          "in" : "body",
           "name" : "model",
+          "in" : "body",
           "description" : "",
           "required" : true,
           "schema" : {
@@ -502,8 +502,8 @@
           "required" : true,
           "type" : "string"
         }, {
-          "in" : "body",
           "name" : "checkoutRequest",
+          "in" : "body",
           "description" : "The Payment Details of the Card.",
           "required" : true,
           "schema" : {
@@ -545,7 +545,7 @@
           "200" : {
             "description" : "OK",
             "schema" : {
-              "$ref" : "#/definitions/CheckoutResult"
+              "$ref" : "#/definitions/CartCalculationResult"
             }
           },
           "404" : {
@@ -557,6 +557,32 @@
         } ]
       }
     },
+    "/carts/coupon/{id}" : {
+      "get" : {
+        "tags" : [ "Carts" ],
+        "summary" : "Gets a coupon.",
+        "operationId" : "cart-coupon",
+        "consumes" : [ ],
+        "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/CouponResponse"
+            }
+          },
+          "404" : {
+            "description" : "NotFound"
+          }
+        }
+      }
+    },
     "/content/home" : {
       "get" : {
         "tags" : [ "Content" ],
@@ -565,12 +591,31 @@
         "operationId" : "Content_GetHome",
         "consumes" : [ ],
         "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
-        "parameters" : [ ],
         "responses" : {
           "200" : {
             "description" : "OK",
             "schema" : {
               "$ref" : "#/definitions/ContentfulResponse"
+            }
+          },
+          "404" : {
+            "description" : "NotFound"
+          }
+        }
+      }
+    },
+    "/content/info" : {
+      "get" : {
+        "tags" : [ "Content" ],
+        "summary" : "Gets the information.",
+        "operationId" : "Content_GetInfo",
+        "consumes" : [ ],
+        "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/SiteInfoResponse"
             }
           },
           "404" : {
@@ -637,7 +682,10 @@
           "404" : {
             "description" : "NotFound"
           }
-        }
+        },
+        "security" : [ {
+          "oauth2" : [ ]
+        } ]
       },
       "put" : {
         "tags" : [ "Customers" ],
@@ -653,9 +701,9 @@
           "required" : true,
           "type" : "string"
         }, {
+          "name" : "model",
           "in" : "body",
-          "name" : "value",
-          "description" : "The user ProfileInfo",
+          "description" : "The user CustomerProfileModel",
           "required" : true,
           "schema" : {
             "$ref" : "#/definitions/CustomerProfileModel"
@@ -668,14 +716,17 @@
           "404" : {
             "description" : "NotFound"
           }
-        }
+        },
+        "security" : [ {
+          "oauth2" : [ ]
+        } ]
       },
       "delete" : {
         "tags" : [ "Customers" ],
         "summary" : "delete-customer",
         "operationId" : "delete-customer",
         "consumes" : [ ],
-        "produces" : [ ],
+        "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters" : [ {
           "name" : "id",
           "in" : "path",
@@ -686,9 +737,6 @@
         "responses" : {
           "200" : {
             "description" : "OK"
-          },
-          "204" : {
-            "description" : "No Content"
           },
           "404" : {
             "description" : "NotFound"
@@ -726,6 +774,40 @@
           "oauth2" : [ ]
         } ]
       },
+      "put" : {
+        "tags" : [ "Customers" ],
+        "summary" : "update-payment-profile",
+        "description" : "Updates authorize.net  customer payment profile.",
+        "operationId" : "update-payment-profiles",
+        "consumes" : [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
+        "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "SL Account Number.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "request",
+          "in" : "body",
+          "description" : "Customer profile id and Customer payment profile id to update",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/DeletePaymentProfileRequest"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/PaymentProfileResponse"
+            }
+          },
+          "404" : {
+            "description" : "NotFound"
+          }
+        }
+      },
       "post" : {
         "tags" : [ "Customers" ],
         "summary" : "add-payment-profile",
@@ -740,8 +822,8 @@
           "required" : true,
           "type" : "string"
         }, {
-          "in" : "body",
           "name" : "customerPaymentProfileRequest",
+          "in" : "body",
           "description" : "The customer.",
           "required" : true,
           "schema" : {
@@ -763,40 +845,6 @@
           "oauth2" : [ ]
         } ]
       },
-      "put" : {
-        "tags" : [ "Customers" ],
-        "summary" : "update-payment-profile",
-        "description" : "Updates authorize.net  customer payment profile.",
-        "operationId" : "update-payment-profiles",
-        "consumes" : [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
-        "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
-        "parameters" : [ {
-          "name" : "id",
-          "in" : "path",
-          "description" : "SL Account Number.",
-          "required" : true,
-          "type" : "string"
-        }, {
-          "in" : "body",
-          "name" : "request",
-          "description" : "Customer profile id and Customer payment profile id to update",
-          "required" : true,
-          "schema" : {
-            "$ref" : "#/definitions/DeletePaymentProfileRequest"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "OK",
-            "schema" : {
-              "$ref" : "#/definitions/PaymentProfileResponse"
-            }
-          },
-          "404" : {
-            "description" : "NotFound"
-          }
-        }
-      },
       "delete" : {
         "tags" : [ "Customers" ],
         "summary" : "payment-profile-delete",
@@ -811,8 +859,8 @@
           "required" : true,
           "type" : "string"
         }, {
-          "in" : "body",
           "name" : "customer",
+          "in" : "body",
           "description" : "",
           "required" : true,
           "schema" : {
@@ -844,8 +892,8 @@
         "consumes" : [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
         "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters" : [ {
-          "in" : "body",
           "name" : "request",
+          "in" : "body",
           "required" : true,
           "schema" : {
             "$ref" : "#/definitions/CustomerByEmailRequest"
@@ -891,6 +939,37 @@
         }
       }
     },
+    "/customers/{id}/contacts" : {
+      "get" : {
+        "tags" : [ "Customers" ],
+        "summary" : "update-customer",
+        "description" : "Puts the customer profile completing the sign-up process",
+        "operationId" : "customer-contacts",
+        "consumes" : [ ],
+        "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "SL Account Number.",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/AccountContactsCollectionResult"
+            }
+          },
+          "404" : {
+            "description" : "NotFound"
+          }
+        },
+        "security" : [ {
+          "oauth2" : [ ]
+        } ]
+      }
+    },
     "/customers/project-manager" : {
       "get" : {
         "tags" : [ "Customers" ],
@@ -899,7 +978,6 @@
         "operationId" : "project-manager-get",
         "consumes" : [ ],
         "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
-        "parameters" : [ ],
         "responses" : {
           "200" : {
             "description" : "OK",
@@ -957,8 +1035,8 @@
           "required" : true,
           "type" : "string"
         }, {
-          "in" : "body",
           "name" : "address",
+          "in" : "body",
           "description" : "The address to save",
           "required" : true,
           "schema" : {
@@ -1003,8 +1081,8 @@
           "type" : "integer",
           "format" : "int32"
         }, {
-          "in" : "body",
           "name" : "address",
+          "in" : "body",
           "description" : "The address to save",
           "required" : true,
           "schema" : {
@@ -1071,7 +1149,6 @@
         "operationId" : "members-get",
         "consumes" : [ ],
         "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
-        "parameters" : [ ],
         "responses" : {
           "200" : {
             "description" : "OK",
@@ -1081,15 +1158,22 @@
           }
         }
       },
-      "post" : {
+      "put" : {
         "tags" : [ "Members" ],
-        "summary" : "members-add",
-        "operationId" : "members-add",
+        "summary" : "member-update",
+        "operationId" : "members-update",
         "consumes" : [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
         "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters" : [ {
-          "in" : "body",
+          "name" : "id",
+          "in" : "query",
+          "description" : "The member id to update.",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
           "name" : "member",
+          "in" : "body",
           "description" : "The new member data.",
           "required" : true,
           "schema" : {
@@ -1108,22 +1192,15 @@
           }
         }
       },
-      "put" : {
+      "post" : {
         "tags" : [ "Members" ],
-        "summary" : "member-update",
-        "operationId" : "members-update",
+        "summary" : "members-add",
+        "operationId" : "members-add",
         "consumes" : [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
         "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters" : [ {
-          "name" : "id",
-          "in" : "query",
-          "description" : "The member id to update.",
-          "required" : true,
-          "type" : "integer",
-          "format" : "int32"
-        }, {
-          "in" : "body",
           "name" : "member",
+          "in" : "body",
           "description" : "The new member data.",
           "required" : true,
           "schema" : {
@@ -1298,8 +1375,8 @@
           "required" : true,
           "type" : "string"
         }, {
-          "in" : "body",
           "name" : "stopJobRequest",
+          "in" : "body",
           "description" : "Request to stop a job",
           "required" : true,
           "schema" : {
@@ -1333,8 +1410,8 @@
           "required" : true,
           "type" : "string"
         }, {
-          "in" : "body",
           "name" : "designJobRequest",
+          "in" : "body",
           "description" : "The request to update",
           "required" : true,
           "schema" : {
@@ -1362,7 +1439,6 @@
         "operationId" : "orders-get",
         "consumes" : [ ],
         "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
-        "parameters" : [ ],
         "responses" : {
           "200" : {
             "description" : "OK",
@@ -1389,7 +1465,6 @@
         "operationId" : "Token",
         "consumes" : [ ],
         "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
-        "parameters" : [ ],
         "responses" : {
           "200" : {
             "description" : "OK",
@@ -1436,8 +1511,8 @@
         "consumes" : [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
         "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters" : [ {
-          "in" : "body",
           "name" : "info",
+          "in" : "body",
           "description" : "MRM Infusionsoft Contact/OrderInfo.",
           "required" : true,
           "schema" : {
@@ -1449,6 +1524,27 @@
             "description" : "OK",
             "schema" : {
               "$ref" : "#/definitions/CreateTagResponse"
+            }
+          },
+          "404" : {
+            "description" : "NotFound"
+          }
+        }
+      }
+    },
+    "/production/holidays" : {
+      "get" : {
+        "tags" : [ "Production" ],
+        "summary" : "production-holidays",
+        "description" : "PrintSmart Production Holidays.",
+        "operationId" : "production-holidays",
+        "consumes" : [ ],
+        "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/ProductionHolidayResponse"
             }
           },
           "404" : {
@@ -1558,8 +1654,8 @@
           "required" : true,
           "type" : "string"
         }, {
-          "in" : "body",
           "name" : "item",
+          "in" : "body",
           "description" : "",
           "required" : true,
           "schema" : {
@@ -1652,56 +1748,64 @@
   },
   "definitions" : {
     "UserModel" : {
+      "description" : "A data Model for the user.",
+      "required" : [ "userName", "email", "firstName", "lastName", "password" ],
       "type" : "object",
-      "required" : [ "email", "firstName", "lastName", "password", "userName" ],
       "properties" : {
         "userName" : {
-          "type" : "string",
-          "description" : "Gets or sets the name of the user."
+          "description" : "Gets or sets the name of the user.",
+          "type" : "string"
         },
         "email" : {
-          "type" : "string",
-          "description" : "Gets or sets the email."
+          "description" : "Gets or sets the email.",
+          "type" : "string"
         },
         "firstName" : {
-          "type" : "string",
-          "description" : "Gets or sets the person's first name."
+          "description" : "Gets or sets the person's first name.",
+          "type" : "string"
         },
         "lastName" : {
-          "type" : "string",
-          "description" : "Gets or sets the person's last name."
+          "description" : "Gets or sets the person's last name.",
+          "type" : "string"
         },
         "password" : {
-          "type" : "string",
           "description" : "Gets or sets the password.",
+          "maxLength" : 100,
           "minLength" : 6,
-          "maxLength" : 100
+          "type" : "string"
         },
         "confirmPassword" : {
-          "type" : "string",
-          "description" : "Gets or sets the confirm password."
+          "description" : "Gets or sets the confirm password.",
+          "type" : "string"
+        },
+        "company" : {
+          "description" : "Gets or sets the Company.",
+          "type" : "string"
+        },
+        "phoneNumber" : {
+          "description" : "Gets or sets the Phonenumber.",
+          "type" : "string"
         }
-      },
-      "description" : "A data Model for the user."
+      }
     },
     "ChangePasswordRequestModel" : {
+      "description" : "Model for Password Reset Request",
+      "required" : [ "password", "confirmPassword" ],
       "type" : "object",
-      "required" : [ "confirmPassword", "password" ],
       "properties" : {
         "password" : {
-          "type" : "string",
           "description" : "Gets or sets the request Password field.",
+          "maxLength" : 35,
           "minLength" : 8,
-          "maxLength" : 35
+          "type" : "string"
         },
         "confirmPassword" : {
-          "type" : "string",
           "description" : "Gets or sets the ConfirmPassword field.",
+          "maxLength" : 35,
           "minLength" : 8,
-          "maxLength" : 35
+          "type" : "string"
         }
-      },
-      "description" : "Model for Password Reset Request"
+      }
     },
     "CancellationToken" : {
       "type" : "object",
@@ -1715,8 +1819,8 @@
           "readOnly" : true
         },
         "waitHandle" : {
-          "readOnly" : true,
-          "$ref" : "#/definitions/WaitHandle"
+          "$ref" : "#/definitions/WaitHandle",
+          "readOnly" : true
         }
       }
     },
@@ -1724,8 +1828,7 @@
       "type" : "object",
       "properties" : {
         "handle" : {
-          "type" : "object",
-          "properties" : { }
+          "type" : "object"
         },
         "safeWaitHandle" : {
           "$ref" : "#/definitions/SafeWaitHandle"
@@ -1746,50 +1849,49 @@
       }
     },
     "BooleanResponse" : {
+      "description" : "An API response yielding a boolean",
       "type" : "object",
       "properties" : {
         "data" : {
-          "type" : "boolean",
-          "description" : "Gets or sets The payload of the response."
+          "description" : "Gets or sets The payload of the response.",
+          "type" : "boolean"
         },
         "message" : {
-          "type" : "string",
-          "description" : "Gets or sets Message of the response, maybe be empty."
+          "description" : "Gets or sets Message of the response, maybe be empty.",
+          "type" : "string"
         },
         "status" : {
-          "type" : "string",
-          "description" : "Gets or sets status of the API response."
+          "description" : "Gets or sets status of the API response.",
+          "type" : "string"
         }
-      },
-      "description" : "An API response yielding a boolean"
+      }
     },
     "ApiError" : {
+      "description" : "Api Error Response",
       "type" : "object",
       "properties" : {
         "data" : {
-          "type" : "object",
           "description" : "The Data",
-          "properties" : { }
+          "type" : "object"
         },
         "message" : {
-          "type" : "string",
-          "description" : "The Error Message"
+          "description" : "The Error Message",
+          "type" : "string"
         },
         "moreInfo" : {
-          "type" : "string",
-          "description" : "Extended Information about the error"
+          "description" : "Extended Information about the error",
+          "type" : "string"
         },
         "code" : {
-          "type" : "integer",
           "format" : "int32",
-          "description" : "The Error Code"
+          "description" : "The Error Code",
+          "type" : "integer"
         },
         "status" : {
-          "type" : "string",
-          "description" : "The status of the request"
+          "description" : "The status of the request",
+          "type" : "string"
         }
-      },
-      "description" : "Api Error Response"
+      }
     },
     "ForgotPasswordRequestModel" : {
       "type" : "object",
@@ -1800,24 +1902,24 @@
       }
     },
     "ResetPasswordRequestModel" : {
+      "required" : [ "password", "confirmPassword" ],
       "type" : "object",
-      "required" : [ "confirmPassword", "password" ],
       "properties" : {
         "password" : {
-          "type" : "string",
+          "maxLength" : 35,
           "minLength" : 8,
-          "maxLength" : 35
+          "type" : "string"
         },
         "confirmPassword" : {
-          "type" : "string",
+          "maxLength" : 35,
           "minLength" : 8,
-          "maxLength" : 35
+          "type" : "string"
         }
       }
     },
     "ContactDto" : {
-      "type" : "object",
       "required" : [ "customerId", "email", "firstName", "lastName" ],
+      "type" : "object",
       "properties" : {
         "customerId" : {
           "type" : "string"
@@ -1829,8 +1931,8 @@
           "type" : "string"
         },
         "defaultContact" : {
-          "type" : "integer",
-          "format" : "int32"
+          "format" : "int32",
+          "type" : "integer"
         },
         "deliveryZip" : {
           "type" : "string"
@@ -1866,8 +1968,8 @@
           "type" : "string"
         },
         "slmnewsLetter" : {
-          "type" : "integer",
-          "format" : "int32"
+          "format" : "int32",
+          "type" : "integer"
         },
         "status" : {
           "type" : "string"
@@ -1881,40 +1983,40 @@
       }
     },
     "StringResponse" : {
-      "type" : "object",
-      "properties" : {
-        "data" : {
-          "type" : "string",
-          "description" : "Gets or sets The payload of the response."
-        },
-        "message" : {
-          "type" : "string",
-          "description" : "Gets or sets Message of the response, maybe be empty."
-        },
-        "status" : {
-          "type" : "string",
-          "description" : "Gets or sets status of the API response."
-        }
-      },
-      "description" : "An API response yielding a string"
-    },
-    "AddressSearchResponse" : {
+      "description" : "An API response yielding a string",
       "type" : "object",
       "properties" : {
         "data" : {
           "description" : "Gets or sets The payload of the response.",
-          "$ref" : "#/definitions/AddressSearchResult"
+          "type" : "string"
         },
         "message" : {
-          "type" : "string",
-          "description" : "Gets or sets Message of the response, maybe be empty."
+          "description" : "Gets or sets Message of the response, maybe be empty.",
+          "type" : "string"
         },
         "status" : {
-          "type" : "string",
-          "description" : "Gets or sets status of the API response."
+          "description" : "Gets or sets status of the API response.",
+          "type" : "string"
         }
-      },
-      "description" : "Response for autocomplete search and Address validation"
+      }
+    },
+    "AddressSearchResponse" : {
+      "description" : "Response for autocomplete search and Address validation",
+      "type" : "object",
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/AddressSearchResult",
+          "description" : "Gets or sets The payload of the response."
+        },
+        "message" : {
+          "description" : "Gets or sets Message of the response, maybe be empty.",
+          "type" : "string"
+        },
+        "status" : {
+          "description" : "Gets or sets status of the API response.",
+          "type" : "string"
+        }
+      }
     },
     "AddressSearchResult" : {
       "type" : "object",
@@ -1937,8 +2039,8 @@
           "$ref" : "#/definitions/Geometry"
         },
         "totalUnitCount" : {
-          "type" : "integer",
-          "format" : "int64"
+          "format" : "int64",
+          "type" : "integer"
         },
         "ranges" : {
           "type" : "array",
@@ -1976,8 +2078,8 @@
           "type" : "string"
         },
         "postCode" : {
-          "type" : "integer",
-          "format" : "int64"
+          "format" : "int64",
+          "type" : "integer"
         },
         "postCodeExt" : {
           "type" : "string"
@@ -1986,8 +2088,8 @@
           "type" : "string"
         },
         "addressNumber" : {
-          "type" : "integer",
-          "format" : "int64"
+          "format" : "int64",
+          "type" : "integer"
         },
         "streetName" : {
           "type" : "string"
@@ -2009,8 +2111,8 @@
         "coordinates" : {
           "type" : "array",
           "items" : {
-            "type" : "number",
-            "format" : "double"
+            "format" : "double",
+            "type" : "number"
           }
         }
       }
@@ -2041,22 +2143,22 @@
       }
     },
     "ShopCartResponse" : {
+      "description" : "An API response yielding a ShopCart",
       "type" : "object",
       "properties" : {
         "data" : {
-          "description" : "Gets or sets The payload of the response.",
-          "$ref" : "#/definitions/ShopCart"
+          "$ref" : "#/definitions/ShopCart",
+          "description" : "Gets or sets The payload of the response."
         },
         "message" : {
-          "type" : "string",
-          "description" : "Gets or sets Message of the response, maybe be empty."
+          "description" : "Gets or sets Message of the response, maybe be empty.",
+          "type" : "string"
         },
         "status" : {
-          "type" : "string",
-          "description" : "Gets or sets status of the API response."
+          "description" : "Gets or sets status of the API response.",
+          "type" : "string"
         }
-      },
-      "description" : "An API response yielding a ShopCart"
+      }
     },
     "ShopCart" : {
       "type" : "object",
@@ -2068,16 +2170,16 @@
           "type" : "boolean"
         },
         "memberId" : {
-          "type" : "integer",
-          "format" : "int32"
+          "format" : "int32",
+          "type" : "integer"
         },
         "createdOn" : {
-          "type" : "string",
-          "format" : "date-time"
+          "format" : "date-time",
+          "type" : "string"
         },
         "updatedOn" : {
-          "type" : "string",
-          "format" : "date-time"
+          "format" : "date-time",
+          "type" : "string"
         },
         "customerId" : {
           "type" : "string"
@@ -2088,43 +2190,42 @@
         "items" : {
           "type" : "array",
           "items" : {
-            "type" : "object",
-            "properties" : { }
+            "type" : "object"
           }
         },
         "orderId" : {
           "type" : "string"
         },
         "total" : {
-          "type" : "number",
-          "format" : "double"
+          "format" : "double",
+          "type" : "number"
         },
         "tax" : {
-          "type" : "number",
-          "format" : "double"
+          "format" : "double",
+          "type" : "number"
         }
       }
     },
     "ShopCartItemCollectionResponse" : {
+      "description" : "An API response yielding a collection of ShopCartItem",
       "type" : "object",
       "properties" : {
         "data" : {
-          "type" : "array",
           "description" : "Gets or sets The payload of the response.",
+          "type" : "array",
           "items" : {
             "$ref" : "#/definitions/ShopCartItem"
           }
         },
         "message" : {
-          "type" : "string",
-          "description" : "Gets or sets Message of the response, maybe be empty."
+          "description" : "Gets or sets Message of the response, maybe be empty.",
+          "type" : "string"
         },
         "status" : {
-          "type" : "string",
-          "description" : "Gets or sets status of the API response."
+          "description" : "Gets or sets status of the API response.",
+          "type" : "string"
         }
-      },
-      "description" : "An API response yielding a collection of ShopCartItem"
+      }
     },
     "ShopCartItem" : {
       "type" : "object",
@@ -2133,13 +2234,13 @@
           "type" : "string"
         },
         "id" : {
-          "type" : "string",
           "format" : "uuid",
+          "type" : "string",
           "example" : "00000000-0000-0000-0000-000000000000"
         },
         "itemId" : {
-          "type" : "string",
           "format" : "uuid",
+          "type" : "string",
           "example" : "00000000-0000-0000-0000-000000000000"
         },
         "productId" : {
@@ -2155,20 +2256,20 @@
           "type" : "string"
         },
         "quantity" : {
-          "type" : "integer",
-          "format" : "int32"
+          "format" : "int32",
+          "type" : "integer"
         },
         "height" : {
-          "type" : "number",
-          "format" : "double"
+          "format" : "double",
+          "type" : "number"
         },
         "width" : {
-          "type" : "number",
-          "format" : "double"
+          "format" : "double",
+          "type" : "number"
         },
         "cost" : {
-          "type" : "number",
-          "format" : "double"
+          "format" : "double",
+          "type" : "number"
         },
         "turnaround" : {
           "type" : "string"
@@ -2192,15 +2293,21 @@
           "$ref" : "#/definitions/ShopCartItemConfigurator"
         },
         "createdOn" : {
-          "type" : "string",
-          "format" : "date-time"
+          "format" : "date-time",
+          "type" : "string"
         },
         "updatedOn" : {
-          "type" : "string",
-          "format" : "date-time"
+          "format" : "date-time",
+          "type" : "string"
         },
         "isTaxable" : {
           "type" : "boolean"
+        },
+        "unit" : {
+          "type" : "string"
+        },
+        "jobId" : {
+          "type" : "string"
         }
       }
     },
@@ -2216,8 +2323,8 @@
         "quantities" : {
           "type" : "array",
           "items" : {
-            "type" : "integer",
-            "format" : "int64"
+            "format" : "int64",
+            "type" : "integer"
           }
         },
         "turnarounds" : {
@@ -2225,6 +2332,9 @@
           "items" : {
             "type" : "string"
           }
+        },
+        "visualProofTool" : {
+          "type" : "boolean"
         }
       }
     },
@@ -2241,12 +2351,12 @@
           "type" : "string"
         },
         "order" : {
-          "type" : "integer",
-          "format" : "int64"
+          "format" : "int64",
+          "type" : "integer"
         },
         "selectMode" : {
-          "type" : "string",
-          "enum" : [ "Single", "Multiple" ]
+          "enum" : [ "Single", "Multiple" ],
+          "type" : "string"
         },
         "required" : {
           "type" : "boolean"
@@ -2272,8 +2382,8 @@
           "type" : "string"
         },
         "rank" : {
-          "type" : "integer",
-          "format" : "int64"
+          "format" : "int64",
+          "type" : "integer"
         },
         "exclusions" : {
           "type" : "array",
@@ -2290,8 +2400,8 @@
       "type" : "object",
       "properties" : {
         "numberOfSets" : {
-          "type" : "integer",
-          "format" : "int32"
+          "format" : "int32",
+          "type" : "integer"
         },
         "cartItem" : {
           "$ref" : "#/definitions/ShopCartItem"
@@ -2299,24 +2409,24 @@
       }
     },
     "GuidResponse" : {
+      "description" : "An API response yielding a GUID",
       "type" : "object",
       "properties" : {
         "data" : {
-          "type" : "string",
           "format" : "uuid",
-          "example" : "00000000-0000-0000-0000-000000000000",
-          "description" : "Gets or sets The payload of the response."
+          "description" : "Gets or sets The payload of the response.",
+          "type" : "string",
+          "example" : "00000000-0000-0000-0000-000000000000"
         },
         "message" : {
-          "type" : "string",
-          "description" : "Gets or sets Message of the response, maybe be empty."
+          "description" : "Gets or sets Message of the response, maybe be empty.",
+          "type" : "string"
         },
         "status" : {
-          "type" : "string",
-          "description" : "Gets or sets status of the API response."
+          "description" : "Gets or sets status of the API response.",
+          "type" : "string"
         }
-      },
-      "description" : "An API response yielding a GUID"
+      }
     },
     "CheckoutRequestModel" : {
       "type" : "object",
@@ -2392,26 +2502,63 @@
         },
         "selfPickup" : {
           "type" : "boolean"
+        },
+        "shippingOption" : {
+          "$ref" : "#/definitions/ShippingOption"
+        },
+        "contactNumber" : {
+          "type" : "string"
+        },
+        "useTerms" : {
+          "type" : "boolean"
+        },
+        "comment" : {
+          "type" : "string"
+        }
+      }
+    },
+    "ShippingOption" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "cost" : {
+          "format" : "double",
+          "type" : "number"
+        },
+        "date" : {
+          "format" : "date-time",
+          "type" : "string"
+        },
+        "blindShipment" : {
+          "type" : "boolean"
+        },
+        "signatureRequired" : {
+          "type" : "boolean"
         }
       }
     },
     "CheckoutCartResponse" : {
+      "description" : "A checkout cart response.",
       "type" : "object",
       "properties" : {
         "data" : {
-          "description" : "Gets or sets The payload of the response.",
-          "$ref" : "#/definitions/CheckoutResult"
+          "$ref" : "#/definitions/CheckoutResult",
+          "description" : "Gets or sets The payload of the response."
         },
         "message" : {
-          "type" : "string",
-          "description" : "Gets or sets Message of the response, maybe be empty."
+          "description" : "Gets or sets Message of the response, maybe be empty.",
+          "type" : "string"
         },
         "status" : {
-          "type" : "string",
-          "description" : "Gets or sets status of the API response."
+          "description" : "Gets or sets status of the API response.",
+          "type" : "string"
         }
-      },
-      "description" : "A checkout cart response."
+      }
     },
     "CheckoutResult" : {
       "type" : "object",
@@ -2431,205 +2578,365 @@
       }
     },
     "CartCalculationResult" : {
+      "description" : "Encapsulates the result of a cart calculation.",
       "type" : "object",
       "properties" : {
         "subtotal" : {
-          "type" : "number",
           "format" : "double",
-          "description" : "Gets or sets the subtotal."
+          "description" : "Gets or sets the subtotal.",
+          "type" : "number"
         },
         "tax" : {
-          "type" : "number",
           "format" : "double",
-          "description" : "Gets or sets the tax."
+          "description" : "Gets or sets the tax.",
+          "type" : "number"
         },
         "total" : {
-          "type" : "number",
           "format" : "double",
-          "description" : "Gets or sets the number of."
+          "description" : "Gets or sets the number of.",
+          "type" : "number"
         }
-      },
-      "description" : "Encapsulates the result of a cart calculation."
+      }
     },
-    "ContentfulResponse" : {
+    "CouponResponse" : {
+      "description" : "A coupon response.",
       "type" : "object",
       "properties" : {
         "data" : {
-          "description" : "Gets or sets The payload of the response.",
-          "$ref" : "#/definitions/ContentPageModel"
+          "$ref" : "#/definitions/CouponDto",
+          "description" : "Gets or sets The payload of the response."
         },
         "message" : {
-          "type" : "string",
-          "description" : "Gets or sets Message of the response, maybe be empty."
+          "description" : "Gets or sets Message of the response, maybe be empty.",
+          "type" : "string"
         },
         "status" : {
-          "type" : "string",
-          "description" : "Gets or sets status of the API response."
+          "description" : "Gets or sets status of the API response.",
+          "type" : "string"
         }
-      },
-      "description" : "A ContenfulPageModel API Response"
+      }
+    },
+    "CouponDto" : {
+      "type" : "object",
+      "properties" : {
+        "applyTo" : {
+          "type" : "string"
+        },
+        "bogo" : {
+          "type" : "boolean"
+        },
+        "categoryId" : {
+          "format" : "int32",
+          "type" : "integer"
+        },
+        "cpnCode" : {
+          "type" : "string"
+        },
+        "cpnId" : {
+          "type" : "string"
+        },
+        "cpnType" : {
+          "type" : "string"
+        },
+        "cpnValue" : {
+          "format" : "double",
+          "type" : "number"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "endDate" : {
+          "format" : "date-time",
+          "type" : "string"
+        },
+        "matchAll" : {
+          "type" : "boolean"
+        },
+        "minAmount" : {
+          "format" : "double",
+          "type" : "number"
+        },
+        "numberOfUses" : {
+          "type" : "string"
+        },
+        "originalQuantity" : {
+          "format" : "int32",
+          "type" : "integer"
+        },
+        "productSubCatId" : {
+          "type" : "string"
+        },
+        "randomSetId" : {
+          "format" : "int32",
+          "type" : "integer"
+        },
+        "redeemedBy" : {
+          "type" : "string"
+        },
+        "redemptions" : {
+          "format" : "int32",
+          "type" : "integer"
+        },
+        "startDate" : {
+          "format" : "date-time",
+          "type" : "string"
+        },
+        "status" : {
+          "type" : "string"
+        },
+        "targetQuantity" : {
+          "format" : "int32",
+          "type" : "integer"
+        },
+        "updatedOn" : {
+          "format" : "date-time",
+          "type" : "string"
+        },
+        "usageOn" : {
+          "format" : "date-time",
+          "type" : "string"
+        },
+        "valid" : {
+          "type" : "string"
+        }
+      }
+    },
+    "ContentfulResponse" : {
+      "description" : "A ContenfulPageModel API Response",
+      "type" : "object",
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/ContentPageModel",
+          "description" : "Gets or sets The payload of the response."
+        },
+        "message" : {
+          "description" : "Gets or sets Message of the response, maybe be empty.",
+          "type" : "string"
+        },
+        "status" : {
+          "description" : "Gets or sets status of the API response.",
+          "type" : "string"
+        }
+      }
     },
     "ContentPageModel" : {
+      "description" : "Model for a Contentful ContentPage",
       "type" : "object",
       "properties" : {
         "carousel" : {
-          "type" : "string",
-          "description" : "The Carousel Element"
+          "description" : "The Carousel Element",
+          "type" : "string"
         },
         "grid" : {
-          "type" : "array",
           "description" : "The Grid Elements",
+          "type" : "array",
           "items" : {
             "type" : "string"
           }
         }
-      },
-      "description" : "Model for a Contentful ContentPage"
+      }
+    },
+    "SiteInfoResponse" : {
+      "description" : "A site information response.",
+      "type" : "object",
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/SiteInfo",
+          "description" : "Gets or sets The payload of the response."
+        },
+        "message" : {
+          "description" : "Gets or sets Message of the response, maybe be empty.",
+          "type" : "string"
+        },
+        "status" : {
+          "description" : "Gets or sets status of the API response.",
+          "type" : "string"
+        }
+      }
+    },
+    "SiteInfo" : {
+      "description" : "Information about the site.",
+      "type" : "object",
+      "properties" : {
+        "content" : {
+          "description" : "Gets or sets the content.",
+          "type" : "string"
+        }
+      }
     },
     "PaginatedCustomersResponse" : {
+      "description" : "A paginated CustomerViewModel Response",
       "type" : "object",
       "properties" : {
         "pagination" : {
-          "description" : "Gets or sets the pagination of the results.",
-          "$ref" : "#/definitions/Pagination"
+          "$ref" : "#/definitions/Pagination",
+          "description" : "Gets or sets the pagination of the results."
         },
         "data" : {
-          "type" : "array",
           "description" : "Gets or sets The payload of the response.",
+          "type" : "array",
           "items" : {
             "$ref" : "#/definitions/CustomerViewModel"
           }
         },
         "message" : {
-          "type" : "string",
-          "description" : "Gets or sets Message of the response, maybe be empty."
+          "description" : "Gets or sets Message of the response, maybe be empty.",
+          "type" : "string"
         },
         "status" : {
-          "type" : "string",
-          "description" : "Gets or sets status of the API response."
+          "description" : "Gets or sets status of the API response.",
+          "type" : "string"
         }
-      },
-      "description" : "A paginated CustomerViewModel Response"
+      }
     },
     "Pagination" : {
+      "description" : "Api Results Pagination",
       "type" : "object",
       "properties" : {
         "page" : {
-          "type" : "integer",
           "format" : "int32",
-          "description" : "Gets or sets the page of date to get based on the page size."
+          "description" : "Gets or sets the page of date to get based on the page size.",
+          "type" : "integer"
         },
         "pageSize" : {
-          "type" : "integer",
           "format" : "int32",
-          "description" : "Gets or sets The number of rows to return per request."
+          "description" : "Gets or sets The number of rows to return per request.",
+          "type" : "integer"
         },
         "total" : {
-          "type" : "integer",
           "format" : "int32",
-          "description" : "Gets or sets the total number of rows available."
+          "description" : "Gets or sets the total number of rows available.",
+          "type" : "integer"
         }
-      },
-      "description" : "Api Results Pagination"
+      }
     },
     "CustomerViewModel" : {
+      "description" : "Smartlevels Customer View Model",
       "type" : "object",
       "properties" : {
         "customerId" : {
-          "type" : "string",
-          "description" : "The SL Account Number"
+          "description" : "The SL Account Number",
+          "type" : "string"
         },
         "contactId" : {
-          "type" : "string",
-          "description" : "The CT Default Account Contact Number"
+          "description" : "The CT Default Account Contact Number",
+          "type" : "string"
         },
         "companyName" : {
-          "type" : "string",
-          "description" : "Company Name"
+          "description" : "Company Name",
+          "type" : "string"
         },
         "firstName" : {
-          "type" : "string",
-          "description" : "The First Name of the Account Default Contact"
+          "description" : "The First Name of the Account Default Contact",
+          "type" : "string"
         },
         "lastName" : {
-          "type" : "string",
-          "description" : "The First Name of the Account Default Contact"
+          "description" : "The First Name of the Account Default Contact",
+          "type" : "string"
         },
         "phone" : {
-          "type" : "string",
-          "description" : "The Phone of the Account Default Contact"
+          "description" : "The Phone of the Account Default Contact",
+          "type" : "string"
         },
         "mobilePhone" : {
-          "type" : "string",
-          "description" : "The Mobile Phone of the Account Default Contact"
+          "description" : "The Mobile Phone of the Account Default Contact",
+          "type" : "string"
         },
         "email" : {
-          "type" : "string",
-          "description" : "The Email Phone of the Account Default Contact"
+          "description" : "The Email Phone of the Account Default Contact",
+          "type" : "string"
         },
         "address" : {
-          "type" : "string",
-          "description" : "The address of the company"
+          "description" : "The address of the company",
+          "type" : "string"
         },
         "address2" : {
-          "type" : "string",
-          "description" : "Address 2nd Line"
+          "description" : "Address 2nd Line",
+          "type" : "string"
         },
         "city" : {
-          "type" : "string",
-          "description" : "City"
+          "description" : "City",
+          "type" : "string"
         },
         "state" : {
-          "type" : "string",
-          "description" : "State Code"
+          "description" : "State Code",
+          "type" : "string"
         },
         "zipCode" : {
-          "type" : "string",
-          "description" : "The Zipcode"
+          "description" : "The Zipcode",
+          "type" : "string"
         },
         "country" : {
-          "type" : "string",
-          "description" : "The Country Code"
+          "description" : "The Country Code",
+          "type" : "string"
         },
         "loginId" : {
-          "type" : "string",
-          "description" : "Login ID is email field"
+          "description" : "Login ID is email field",
+          "type" : "string"
         },
         "status" : {
-          "type" : "boolean",
-          "description" : "Success of the Account"
+          "description" : "Success of the Account",
+          "type" : "boolean"
         },
         "customerProfileId" : {
-          "type" : "string",
-          "description" : "Gets or sets the customer profile."
+          "description" : "Gets or sets the customer profile.",
+          "type" : "string"
+        },
+        "isTerms" : {
+          "description" : "Gets or sets a value indicating whether this customer is terms.",
+          "type" : "boolean"
+        },
+        "memberType" : {
+          "description" : "Gets or sets the type of the member.",
+          "type" : "string"
         }
-      },
-      "description" : "Smartlevels Customer View Model"
+      }
     },
     "CustomerProfileResponse" : {
+      "description" : "A customer profile response.",
       "type" : "object",
       "properties" : {
         "data" : {
-          "description" : "Gets or sets The payload of the response.",
-          "$ref" : "#/definitions/CustomerViewModel"
+          "$ref" : "#/definitions/CustomerViewModel",
+          "description" : "Gets or sets The payload of the response."
         },
         "message" : {
-          "type" : "string",
-          "description" : "Gets or sets Message of the response, maybe be empty."
+          "description" : "Gets or sets Message of the response, maybe be empty.",
+          "type" : "string"
         },
         "status" : {
-          "type" : "string",
-          "description" : "Gets or sets status of the API response."
+          "description" : "Gets or sets status of the API response.",
+          "type" : "string"
         }
-      },
-      "description" : "A customer profile response."
+      }
     },
     "CustomerProfileModel" : {
+      "description" : "CustomerProfileModel",
       "type" : "object",
       "properties" : {
+        "customerId" : {
+          "description" : "The customer identifier",
+          "type" : "string"
+        },
+        "contactId" : {
+          "description" : "The contact id of the customer profile",
+          "type" : "string"
+        },
         "company" : {
-          "type" : "string",
-          "description" : "The Customer Company"
+          "description" : "The Customer Company",
+          "type" : "string"
+        },
+        "firstName" : {
+          "description" : "The customer name",
+          "type" : "string"
+        },
+        "lastName" : {
+          "description" : "The customer lastname",
+          "type" : "string"
+        },
+        "phone" : {
+          "description" : "The customer contact number",
+          "type" : "string"
         },
         "address1" : {
           "type" : "string"
@@ -2637,7 +2944,7 @@
         "address2" : {
           "type" : "string"
         },
-        "zip" : {
+        "zipCode" : {
           "type" : "string"
         },
         "city" : {
@@ -2658,30 +2965,29 @@
         "doNotSolicit" : {
           "type" : "boolean"
         }
-      },
-      "description" : "CustomerProfileModel"
+      }
     },
     "AddPaymentProfileRequest" : {
+      "description" : "An add payment profile request.",
       "type" : "object",
       "properties" : {
         "customerProfileId" : {
-          "type" : "string",
-          "description" : "Gets or sets the identifier of the customer profile."
+          "description" : "Gets or sets the identifier of the customer profile.",
+          "type" : "string"
         },
         "nonceToken" : {
-          "type" : "string",
-          "description" : "Gets or sets the nonce."
+          "description" : "Gets or sets the nonce.",
+          "type" : "string"
         },
         "email" : {
-          "type" : "string",
-          "description" : "Gets or sets the email."
+          "description" : "Gets or sets the email.",
+          "type" : "string"
         },
         "defaultPaymentMethod" : {
-          "type" : "boolean",
-          "description" : "Gets or sets the default payment method."
+          "description" : "Gets or sets the default payment method.",
+          "type" : "boolean"
         }
-      },
-      "description" : "An add payment profile request."
+      }
     },
     "CustomerPaymentProfile" : {
       "type" : "object",
@@ -2721,68 +3027,68 @@
       }
     },
     "DeletePaymentProfileRequest" : {
+      "description" : "A delete payment profile request.",
       "type" : "object",
       "properties" : {
         "customerProfileId" : {
-          "type" : "string",
-          "description" : "Gets or sets the identifier of the customer profile."
+          "description" : "Gets or sets the identifier of the customer profile.",
+          "type" : "string"
         },
         "customerPaymentProfileId" : {
-          "type" : "string",
-          "description" : "Gets or sets the identifier of the customer payment profile."
+          "description" : "Gets or sets the identifier of the customer payment profile.",
+          "type" : "string"
         }
-      },
-      "description" : "A delete payment profile request."
+      }
     },
     "PaymentProfileResponse" : {
+      "description" : "A payment profile response.",
       "type" : "object",
       "properties" : {
         "data" : {
-          "type" : "array",
           "description" : "Gets or sets The payload of the response.",
+          "type" : "array",
           "items" : {
             "$ref" : "#/definitions/CustomerPaymentProfile"
           }
         },
         "message" : {
-          "type" : "string",
-          "description" : "Gets or sets Message of the response, maybe be empty."
+          "description" : "Gets or sets Message of the response, maybe be empty.",
+          "type" : "string"
         },
         "status" : {
-          "type" : "string",
-          "description" : "Gets or sets status of the API response."
+          "description" : "Gets or sets status of the API response.",
+          "type" : "string"
         }
-      },
-      "description" : "A payment profile response."
+      }
     },
     "CustomerByEmailRequest" : {
-      "type" : "object",
+      "description" : "Search for customer by email request object",
       "required" : [ "email" ],
+      "type" : "object",
       "properties" : {
         "email" : {
-          "type" : "string",
-          "description" : "Gets or sets Email field to search by."
+          "description" : "Gets or sets Email field to search by.",
+          "type" : "string"
         }
-      },
-      "description" : "Search for customer by email request object"
+      }
     },
     "CustomerResponse" : {
+      "description" : "A CustomerDto API Response",
       "type" : "object",
       "properties" : {
         "data" : {
-          "description" : "Gets or sets The payload of the response.",
-          "$ref" : "#/definitions/CustomerDto"
+          "$ref" : "#/definitions/CustomerDto",
+          "description" : "Gets or sets The payload of the response."
         },
         "message" : {
-          "type" : "string",
-          "description" : "Gets or sets Message of the response, maybe be empty."
+          "description" : "Gets or sets Message of the response, maybe be empty.",
+          "type" : "string"
         },
         "status" : {
-          "type" : "string",
-          "description" : "Gets or sets status of the API response."
+          "description" : "Gets or sets status of the API response.",
+          "type" : "string"
         }
-      },
-      "description" : "A CustomerDto API Response"
+      }
     },
     "CustomerDto" : {
       "type" : "object",
@@ -2836,34 +3142,40 @@
           "type" : "boolean"
         },
         "memberId" : {
-          "type" : "integer",
-          "format" : "int32"
+          "format" : "int32",
+          "type" : "integer"
         },
         "customerProfileId" : {
+          "type" : "string"
+        },
+        "isTerms" : {
+          "type" : "boolean"
+        },
+        "memberType" : {
           "type" : "string"
         }
       }
     },
     "InvoiceCollectionResponse" : {
+      "description" : "A Collection of Invoice API Response",
       "type" : "object",
       "properties" : {
         "data" : {
-          "type" : "array",
           "description" : "Gets or sets The payload of the response.",
+          "type" : "array",
           "items" : {
             "$ref" : "#/definitions/Invoice"
           }
         },
         "message" : {
-          "type" : "string",
-          "description" : "Gets or sets Message of the response, maybe be empty."
+          "description" : "Gets or sets Message of the response, maybe be empty.",
+          "type" : "string"
         },
         "status" : {
-          "type" : "string",
-          "description" : "Gets or sets status of the API response."
+          "description" : "Gets or sets status of the API response.",
+          "type" : "string"
         }
-      },
-      "description" : "A Collection of Invoice API Response"
+      }
     },
     "Invoice" : {
       "type" : "object",
@@ -2872,8 +3184,8 @@
           "type" : "boolean"
         },
         "amtDue" : {
-          "type" : "number",
-          "format" : "double"
+          "format" : "double",
+          "type" : "number"
         },
         "blindShipment" : {
           "type" : "boolean"
@@ -2885,15 +3197,15 @@
           "type" : "string"
         },
         "createdOn" : {
-          "type" : "string",
-          "format" : "date-time"
+          "format" : "date-time",
+          "type" : "string"
         },
         "custId" : {
           "type" : "string"
         },
         "dueDate" : {
-          "type" : "string",
-          "format" : "date-time"
+          "format" : "date-time",
+          "type" : "string"
         },
         "firmWantFlag" : {
           "type" : "boolean"
@@ -2902,12 +3214,12 @@
           "type" : "string"
         },
         "invoiceId" : {
-          "type" : "integer",
-          "format" : "int32"
+          "format" : "int32",
+          "type" : "integer"
         },
         "noOfJobs" : {
-          "type" : "integer",
-          "format" : "int32"
+          "format" : "int32",
+          "type" : "integer"
         },
         "notified" : {
           "type" : "boolean"
@@ -2931,8 +3243,8 @@
           "type" : "string"
         },
         "salesTaxAmt" : {
-          "type" : "number",
-          "format" : "double"
+          "format" : "double",
+          "type" : "number"
         },
         "sendProductCatalog" : {
           "type" : "boolean"
@@ -2944,8 +3256,8 @@
           "type" : "string"
         },
         "subTotal" : {
-          "type" : "number",
-          "format" : "double"
+          "format" : "double",
+          "type" : "number"
         },
         "takenById" : {
           "type" : "string"
@@ -2954,28 +3266,124 @@
           "type" : "string"
         },
         "updatedOn" : {
-          "type" : "string",
-          "format" : "date-time"
+          "format" : "date-time",
+          "type" : "string"
         }
       }
     },
-    "AccountRepResponse" : {
+    "AccountContactsCollectionResult" : {
+      "description" : "Encapsulates the result of an account contacts collection.",
       "type" : "object",
       "properties" : {
         "data" : {
           "description" : "Gets or sets The payload of the response.",
-          "$ref" : "#/definitions/AccountRep"
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/AccountContactDto"
+          }
         },
         "message" : {
-          "type" : "string",
-          "description" : "Gets or sets Message of the response, maybe be empty."
+          "description" : "Gets or sets Message of the response, maybe be empty.",
+          "type" : "string"
         },
         "status" : {
-          "type" : "string",
-          "description" : "Gets or sets status of the API response."
+          "description" : "Gets or sets status of the API response.",
+          "type" : "string"
         }
-      },
-      "description" : "An AccountRep API Response"
+      }
+    },
+    "AccountContactDto" : {
+      "type" : "object",
+      "properties" : {
+        "accountId" : {
+          "type" : "string"
+        },
+        "cellNo" : {
+          "type" : "string"
+        },
+        "contactId" : {
+          "type" : "string"
+        },
+        "createdBy" : {
+          "type" : "string"
+        },
+        "createdOn" : {
+          "format" : "date-time",
+          "type" : "string"
+        },
+        "defaultContact" : {
+          "format" : "int32",
+          "type" : "integer"
+        },
+        "deliveryZip" : {
+          "type" : "string"
+        },
+        "email" : {
+          "type" : "string"
+        },
+        "entryFlag" : {
+          "type" : "string"
+        },
+        "fax" : {
+          "type" : "string"
+        },
+        "firstName" : {
+          "type" : "string"
+        },
+        "jobTitle" : {
+          "type" : "string"
+        },
+        "lastName" : {
+          "type" : "string"
+        },
+        "phone" : {
+          "type" : "string"
+        },
+        "phoneExt" : {
+          "type" : "string"
+        },
+        "prefix" : {
+          "type" : "string"
+        },
+        "salutation" : {
+          "type" : "string"
+        },
+        "slmnewsLetter" : {
+          "format" : "int32",
+          "type" : "integer"
+        },
+        "status" : {
+          "type" : "string"
+        },
+        "suffix" : {
+          "type" : "string"
+        },
+        "updatedBy" : {
+          "type" : "string"
+        },
+        "updatedOn" : {
+          "format" : "date-time",
+          "type" : "string"
+        }
+      }
+    },
+    "AccountRepResponse" : {
+      "description" : "An AccountRep API Response",
+      "type" : "object",
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/AccountRep",
+          "description" : "Gets or sets The payload of the response."
+        },
+        "message" : {
+          "description" : "Gets or sets Message of the response, maybe be empty.",
+          "type" : "string"
+        },
+        "status" : {
+          "description" : "Gets or sets status of the API response.",
+          "type" : "string"
+        }
+      }
     },
     "AccountRep" : {
       "type" : "object",
@@ -2995,25 +3403,25 @@
       }
     },
     "AddressCollectionResponse" : {
+      "description" : "A Collection of AddressDto API Response",
       "type" : "object",
       "properties" : {
         "data" : {
-          "type" : "array",
           "description" : "Gets or sets The payload of the response.",
+          "type" : "array",
           "items" : {
             "$ref" : "#/definitions/AddressDto"
           }
         },
         "message" : {
-          "type" : "string",
-          "description" : "Gets or sets Message of the response, maybe be empty."
+          "description" : "Gets or sets Message of the response, maybe be empty.",
+          "type" : "string"
         },
         "status" : {
-          "type" : "string",
-          "description" : "Gets or sets status of the API response."
+          "description" : "Gets or sets status of the API response.",
+          "type" : "string"
         }
-      },
-      "description" : "A Collection of AddressDto API Response"
+      }
     },
     "AddressDto" : {
       "type" : "object",
@@ -3043,8 +3451,8 @@
           "type" : "string"
         },
         "id" : {
-          "type" : "integer",
-          "format" : "int32"
+          "format" : "int32",
+          "type" : "integer"
         },
         "lastName" : {
           "type" : "string"
@@ -3064,8 +3472,8 @@
       }
     },
     "SaveAddressRequest" : {
-      "type" : "object",
       "required" : [ "country" ],
+      "type" : "object",
       "properties" : {
         "firstName" : {
           "type" : "string"
@@ -3109,43 +3517,43 @@
       }
     },
     "AddressResponse" : {
+      "description" : "An Address API Response",
       "type" : "object",
       "properties" : {
         "data" : {
-          "description" : "Gets or sets The payload of the response.",
-          "$ref" : "#/definitions/AddressDto"
+          "$ref" : "#/definitions/AddressDto",
+          "description" : "Gets or sets The payload of the response."
         },
         "message" : {
-          "type" : "string",
-          "description" : "Gets or sets Message of the response, maybe be empty."
+          "description" : "Gets or sets Message of the response, maybe be empty.",
+          "type" : "string"
         },
         "status" : {
-          "type" : "string",
-          "description" : "Gets or sets status of the API response."
+          "description" : "Gets or sets status of the API response.",
+          "type" : "string"
         }
-      },
-      "description" : "An Address API Response"
+      }
     },
     "MemberCollectionResponse" : {
+      "description" : "An API response yielding a collection of Members",
       "type" : "object",
       "properties" : {
         "data" : {
-          "type" : "array",
           "description" : "Gets or sets The payload of the response.",
+          "type" : "array",
           "items" : {
             "$ref" : "#/definitions/Member"
           }
         },
         "message" : {
-          "type" : "string",
-          "description" : "Gets or sets Message of the response, maybe be empty."
+          "description" : "Gets or sets Message of the response, maybe be empty.",
+          "type" : "string"
         },
         "status" : {
-          "type" : "string",
-          "description" : "Gets or sets status of the API response."
+          "description" : "Gets or sets status of the API response.",
+          "type" : "string"
         }
-      },
-      "description" : "An API response yielding a collection of Members"
+      }
     },
     "Member" : {
       "type" : "object",
@@ -3154,8 +3562,8 @@
           "type" : "string"
         },
         "id" : {
-          "type" : "integer",
-          "format" : "int32"
+          "format" : "int32",
+          "type" : "integer"
         },
         "merchantKey" : {
           "type" : "string"
@@ -3175,88 +3583,88 @@
       }
     },
     "AddMemberRequest" : {
+      "description" : "Add Member Request Model",
+      "required" : [ "name", "merchantKey", "email" ],
       "type" : "object",
-      "required" : [ "email", "merchantKey", "name" ],
       "properties" : {
         "name" : {
-          "type" : "string",
-          "description" : "Gets or sets Member Name."
+          "description" : "Gets or sets Member Name.",
+          "type" : "string"
         },
         "status" : {
-          "type" : "string",
-          "description" : "Gets or sets Member Success Y or N."
+          "description" : "Gets or sets Member Success Y or N.",
+          "type" : "string"
         },
         "specialPriceId" : {
-          "type" : "string",
-          "description" : "Gets or sets Special Price Id."
+          "description" : "Gets or sets Special Price Id.",
+          "type" : "string"
         },
         "merchantLogin" : {
-          "type" : "string",
-          "description" : "Gets or sets Merchant Login."
+          "description" : "Gets or sets Merchant Login.",
+          "type" : "string"
         },
         "merchantKey" : {
-          "type" : "string",
-          "description" : "Gets or sets Merchant Key."
+          "description" : "Gets or sets Merchant Key.",
+          "type" : "string"
         },
         "email" : {
-          "type" : "string",
-          "description" : "Gets or sets Email."
+          "description" : "Gets or sets Email.",
+          "type" : "string"
         }
-      },
-      "description" : "Add Member Request Model"
+      }
     },
     "MemberResponse" : {
+      "description" : "An API response yielding a Member",
       "type" : "object",
       "properties" : {
         "data" : {
-          "description" : "Gets or sets The payload of the response.",
-          "$ref" : "#/definitions/Member"
+          "$ref" : "#/definitions/Member",
+          "description" : "Gets or sets The payload of the response."
         },
         "message" : {
-          "type" : "string",
-          "description" : "Gets or sets Message of the response, maybe be empty."
+          "description" : "Gets or sets Message of the response, maybe be empty.",
+          "type" : "string"
         },
         "status" : {
-          "type" : "string",
-          "description" : "Gets or sets status of the API response."
+          "description" : "Gets or sets status of the API response.",
+          "type" : "string"
         }
-      },
-      "description" : "An API response yielding a Member"
+      }
     },
     "OrderHistoryResponse" : {
+      "description" : "A List of Completed OrderHistoryViewModel",
       "type" : "object",
       "properties" : {
         "data" : {
-          "type" : "array",
           "description" : "Gets or sets The payload of the response.",
+          "type" : "array",
           "items" : {
             "$ref" : "#/definitions/OrderHistoryViewModel"
           }
         },
         "message" : {
-          "type" : "string",
-          "description" : "Gets or sets Message of the response, maybe be empty."
+          "description" : "Gets or sets Message of the response, maybe be empty.",
+          "type" : "string"
         },
         "status" : {
-          "type" : "string",
-          "description" : "Gets or sets status of the API response."
+          "description" : "Gets or sets status of the API response.",
+          "type" : "string"
         }
-      },
-      "description" : "A List of Completed OrderHistoryViewModel"
+      }
     },
     "OrderHistoryViewModel" : {
       "type" : "object",
       "properties" : {
         "id" : {
-          "type" : "integer",
-          "format" : "int64"
+          "format" : "int64",
+          "type" : "integer"
         },
         "number" : {
           "type" : "string"
         },
         "created" : {
-          "type" : "integer",
-          "format" : "int64"
+          "format" : "int64",
+          "type" : "integer"
         },
         "poNumber" : {
           "type" : "string"
@@ -3279,8 +3687,8 @@
       "type" : "object",
       "properties" : {
         "id" : {
-          "type" : "integer",
-          "format" : "int64"
+          "format" : "int64",
+          "type" : "integer"
         },
         "name" : {
           "type" : "string"
@@ -3304,13 +3712,36 @@
           }
         },
         "qty" : {
-          "type" : "integer",
-          "format" : "int64"
+          "format" : "int64",
+          "type" : "integer"
         },
         "status" : {
           "type" : "string"
         },
         "isStoppable" : {
+          "type" : "boolean"
+        },
+        "jobId" : {
+          "type" : "string"
+        },
+        "height" : {
+          "format" : "double",
+          "type" : "number"
+        },
+        "width" : {
+          "format" : "double",
+          "type" : "number"
+        },
+        "unit" : {
+          "type" : "string"
+        },
+        "proofs" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "visualProofTool" : {
           "type" : "boolean"
         }
       }
@@ -3342,8 +3773,8 @@
           "type" : "string"
         },
         "reasonId" : {
-          "type" : "integer",
-          "format" : "int32"
+          "format" : "int32",
+          "type" : "integer"
         },
         "reasonText" : {
           "type" : "string"
@@ -3360,246 +3791,287 @@
           "type" : "string"
         },
         "thumbnailsNumber" : {
-          "type" : "integer",
-          "format" : "int32"
+          "format" : "int32",
+          "type" : "integer"
+        },
+        "visualProof" : {
+          "type" : "boolean"
         }
       }
     },
     "MRMUser" : {
+      "description" : "A MarkoRubel Marketing Infusionsoft user.",
       "type" : "object",
       "properties" : {
         "emailAddresses" : {
-          "type" : "array",
           "description" : "Gets or sets the email addresses.",
+          "type" : "array",
           "items" : {
             "$ref" : "#/definitions/MRMEmailAddress"
           }
         },
         "emailOptedIn" : {
-          "type" : "boolean",
-          "description" : "Gets or sets a value indicating whether the email opted in."
+          "description" : "Gets or sets a value indicating whether the email opted in.",
+          "type" : "boolean"
         },
         "addresses" : {
-          "type" : "array",
           "description" : "Gets or sets the addresses.",
+          "type" : "array",
           "items" : {
             "$ref" : "#/definitions/MRMAddress"
           }
         },
         "lastUpdated" : {
-          "type" : "string",
           "format" : "date-time",
-          "description" : "Gets or sets the Date/Time of the last updated."
+          "description" : "Gets or sets the Date/Time of the last updated.",
+          "type" : "string"
         },
         "tagIds" : {
-          "type" : "array",
           "description" : "Gets or sets a list of identifiers of the tags.",
+          "type" : "array",
           "items" : {
-            "type" : "integer",
-            "format" : "int32"
+            "format" : "int32",
+            "type" : "integer"
           }
         },
         "ownerId" : {
-          "type" : "integer",
           "format" : "int32",
-          "description" : "Gets or sets the identifier that owns this item."
+          "description" : "Gets or sets the identifier that owns this item.",
+          "type" : "integer"
         },
         "dateCreated" : {
-          "type" : "string",
           "format" : "date-time",
-          "description" : "Gets or sets the Date/Time of the date created."
+          "description" : "Gets or sets the Date/Time of the date created.",
+          "type" : "string"
         },
         "middleName" : {
-          "type" : "string",
-          "description" : "Gets or sets the person's middle name."
+          "description" : "Gets or sets the person's middle name.",
+          "type" : "string"
         },
         "givenName" : {
-          "type" : "string",
-          "description" : "Gets or sets the name of the given."
+          "description" : "Gets or sets the name of the given.",
+          "type" : "string"
         },
         "emailStatus" : {
-          "type" : "string",
-          "description" : "Gets or sets the email status."
+          "description" : "Gets or sets the email status.",
+          "type" : "string"
         },
         "phoneNumbers" : {
-          "type" : "array",
           "description" : "Gets or sets the phone numbers.",
+          "type" : "array",
           "items" : {
             "$ref" : "#/definitions/MRMPhoneNumber"
           }
         },
         "company" : {
-          "type" : "string",
-          "description" : "Gets or sets the company."
+          "description" : "Gets or sets the company.",
+          "type" : "string"
         },
         "id" : {
-          "type" : "integer",
           "format" : "int32",
-          "description" : "Gets or sets the identifier."
+          "description" : "Gets or sets the identifier.",
+          "type" : "integer"
         },
         "familyName" : {
-          "type" : "string",
-          "description" : "Gets or sets the name of the family."
+          "description" : "Gets or sets the name of the family.",
+          "type" : "string"
         }
-      },
-      "description" : "A MarkoRubel Marketing Infusionsoft user."
+      }
     },
     "MRMEmailAddress" : {
+      "description" : "A mrm email address.",
       "type" : "object",
       "properties" : {
         "email" : {
-          "type" : "string",
-          "description" : "Gets or sets the email."
+          "description" : "Gets or sets the email.",
+          "type" : "string"
         },
         "field" : {
-          "type" : "string",
-          "description" : "Gets or sets the field."
+          "description" : "Gets or sets the field.",
+          "type" : "string"
         }
-      },
-      "description" : "A mrm email address."
+      }
     },
     "MRMAddress" : {
+      "description" : "A mrm address.",
       "type" : "object",
       "properties" : {
         "line1" : {
-          "type" : "string",
-          "description" : "Gets or sets the line 1."
+          "description" : "Gets or sets the line 1.",
+          "type" : "string"
         },
         "line2" : {
-          "type" : "string",
-          "description" : "Gets or sets the line 2."
+          "description" : "Gets or sets the line 2.",
+          "type" : "string"
         },
         "locality" : {
-          "type" : "string",
-          "description" : "Gets or sets the locality."
+          "description" : "Gets or sets the locality.",
+          "type" : "string"
         },
         "region" : {
-          "type" : "string",
-          "description" : "Gets or sets the region."
+          "description" : "Gets or sets the region.",
+          "type" : "string"
         },
         "field" : {
-          "type" : "string",
-          "description" : "Gets or sets the field."
+          "description" : "Gets or sets the field.",
+          "type" : "string"
         },
         "postalCode" : {
-          "type" : "string",
-          "description" : "Gets or sets the postal code."
+          "description" : "Gets or sets the postal code.",
+          "type" : "string"
         },
         "zipCode" : {
-          "type" : "string",
-          "description" : "Gets or sets the zip code."
+          "description" : "Gets or sets the zip code.",
+          "type" : "string"
         },
         "zipFour" : {
-          "type" : "string",
-          "description" : "Gets or sets the zip four."
+          "description" : "Gets or sets the zip four.",
+          "type" : "string"
         },
         "countyCode" : {
-          "type" : "string",
-          "description" : "Gets or sets the county code."
+          "description" : "Gets or sets the county code.",
+          "type" : "string"
         }
-      },
-      "description" : "A mrm address."
+      }
     },
     "MRMPhoneNumber" : {
+      "description" : "A mrm phone number.",
       "type" : "object",
       "properties" : {
         "number" : {
-          "type" : "string",
-          "description" : "Gets or sets the number of."
+          "description" : "Gets or sets the number of.",
+          "type" : "string"
         },
         "extension" : {
-          "type" : "string",
-          "description" : "Gets or sets the extension."
+          "description" : "Gets or sets the extension.",
+          "type" : "string"
         },
         "field" : {
-          "type" : "string",
-          "description" : "Gets or sets the field."
+          "description" : "Gets or sets the field.",
+          "type" : "string"
         },
         "type" : {
-          "type" : "string",
-          "description" : "Gets or sets the type."
+          "description" : "Gets or sets the type.",
+          "type" : "string"
         }
-      },
-      "description" : "A mrm phone number."
+      }
     },
     "TagContactInfo" : {
+      "description" : "The Infusionsoft Contact to Tag with Dynamic Tag",
       "type" : "object",
       "properties" : {
         "contactId" : {
-          "type" : "integer",
           "format" : "int32",
-          "description" : "The infusionsoft contact id"
+          "description" : "The infusionsoft contact id",
+          "type" : "integer"
         },
         "orderNumber" : {
-          "type" : "string",
-          "description" : "The PrintSmart Order Number"
+          "description" : "The PrintSmart Order Number",
+          "type" : "string"
         },
         "productName" : {
-          "type" : "string",
-          "description" : "The MarkoRubel Product Name"
+          "description" : "The MarkoRubel Product Name",
+          "type" : "string"
         }
-      },
-      "description" : "The Infusionsoft Contact to Tag with Dynamic Tag"
+      }
     },
     "CreateTagResponse" : {
+      "description" : "InfusionSoft Create Tag Response",
       "type" : "object",
       "properties" : {
         "category" : {
-          "description" : "Tag Category for the tag",
-          "$ref" : "#/definitions/TagCategory"
+          "$ref" : "#/definitions/TagCategory",
+          "description" : "Tag Category for the tag"
         },
         "description" : {
-          "type" : "string",
-          "description" : "Tag description"
+          "description" : "Tag description",
+          "type" : "string"
         },
         "id" : {
-          "type" : "integer",
           "format" : "int32",
-          "description" : "The tag ID"
+          "description" : "The tag ID",
+          "type" : "integer"
         },
         "name" : {
-          "type" : "string",
-          "description" : "Tag Name"
+          "description" : "Tag Name",
+          "type" : "string"
         }
-      },
-      "description" : "InfusionSoft Create Tag Response"
+      }
     },
     "TagCategory" : {
+      "description" : "InfusionSoft tag category",
       "type" : "object",
       "properties" : {
         "description" : {
-          "type" : "string",
-          "description" : "Tag description"
+          "description" : "Tag description",
+          "type" : "string"
         },
         "id" : {
-          "type" : "integer",
           "format" : "int32",
-          "description" : "The tag ID"
+          "description" : "The tag ID",
+          "type" : "integer"
         },
         "name" : {
-          "type" : "string",
-          "description" : "Tag Name"
+          "description" : "Tag Name",
+          "type" : "string"
         }
-      },
-      "description" : "InfusionSoft tag category"
+      }
     },
-    "ProductResponse" : {
+    "ProductionHolidayResponse" : {
+      "description" : "A production holiday response.",
       "type" : "object",
       "properties" : {
         "data" : {
           "description" : "Gets or sets The payload of the response.",
-          "$ref" : "#/definitions/ProductViewModel"
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/HolidayDto"
+          }
         },
         "message" : {
-          "type" : "string",
-          "description" : "Gets or sets Message of the response, maybe be empty."
+          "description" : "Gets or sets Message of the response, maybe be empty.",
+          "type" : "string"
         },
         "status" : {
-          "type" : "string",
-          "description" : "Gets or sets status of the API response."
+          "description" : "Gets or sets status of the API response.",
+          "type" : "string"
         }
-      },
-      "description" : "A ProductViewModel API Response"
+      }
+    },
+    "HolidayDto" : {
+      "type" : "object",
+      "properties" : {
+        "date" : {
+          "format" : "date-time",
+          "type" : "string"
+        },
+        "holidayType" : {
+          "format" : "int32",
+          "type" : "integer"
+        },
+        "id" : {
+          "format" : "int32",
+          "type" : "integer"
+        }
+      }
+    },
+    "ProductResponse" : {
+      "description" : "A ProductViewModel API Response",
+      "type" : "object",
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/ProductViewModel",
+          "description" : "Gets or sets The payload of the response."
+        },
+        "message" : {
+          "description" : "Gets or sets Message of the response, maybe be empty.",
+          "type" : "string"
+        },
+        "status" : {
+          "description" : "Gets or sets status of the API response.",
+          "type" : "string"
+        }
+      }
     },
     "ProductViewModel" : {
       "type" : "object",
@@ -3608,8 +4080,8 @@
           "type" : "string"
         },
         "productVariation" : {
-          "type" : "integer",
-          "format" : "int64"
+          "format" : "int64",
+          "type" : "integer"
         },
         "chargeCategories" : {
           "type" : "array",
@@ -3623,8 +4095,8 @@
         "quantities" : {
           "type" : "array",
           "items" : {
-            "type" : "integer",
-            "format" : "int64"
+            "format" : "int64",
+            "type" : "integer"
           }
         },
         "turnarounds" : {
@@ -3640,26 +4112,29 @@
           "type" : "string"
         },
         "width" : {
-          "type" : "number",
-          "format" : "double"
+          "format" : "double",
+          "type" : "number"
         },
         "height" : {
-          "type" : "number",
-          "format" : "double"
+          "format" : "double",
+          "type" : "number"
         },
         "unit" : {
           "type" : "string"
         },
         "safeArea" : {
-          "type" : "number",
-          "format" : "double"
+          "format" : "double",
+          "type" : "number"
         },
         "bleed" : {
-          "type" : "number",
-          "format" : "double"
+          "format" : "double",
+          "type" : "number"
         },
         "dimensionBoundaries" : {
           "$ref" : "#/definitions/CustomDimensions"
+        },
+        "visualProofTool" : {
+          "type" : "boolean"
         }
       }
     },
@@ -3667,47 +4142,47 @@
       "type" : "object",
       "properties" : {
         "minHeight" : {
-          "type" : "number",
-          "format" : "double"
+          "format" : "double",
+          "type" : "number"
         },
         "maxHeight" : {
-          "type" : "number",
-          "format" : "double"
+          "format" : "double",
+          "type" : "number"
         },
         "minWidth" : {
-          "type" : "number",
-          "format" : "double"
+          "format" : "double",
+          "type" : "number"
         },
         "maxWidth" : {
-          "type" : "number",
-          "format" : "double"
+          "format" : "double",
+          "type" : "number"
         }
       }
     },
     "ProductVariationResponse" : {
+      "description" : "A Product Variation API Response",
       "type" : "object",
       "properties" : {
         "data" : {
-          "description" : "Gets or sets The payload of the response.",
-          "$ref" : "#/definitions/ProductVariation"
+          "$ref" : "#/definitions/ProductVariation",
+          "description" : "Gets or sets The payload of the response."
         },
         "message" : {
-          "type" : "string",
-          "description" : "Gets or sets Message of the response, maybe be empty."
+          "description" : "Gets or sets Message of the response, maybe be empty.",
+          "type" : "string"
         },
         "status" : {
-          "type" : "string",
-          "description" : "Gets or sets status of the API response."
+          "description" : "Gets or sets status of the API response.",
+          "type" : "string"
         }
-      },
-      "description" : "A Product Variation API Response"
+      }
     },
     "ProductVariation" : {
       "type" : "object",
       "properties" : {
         "id" : {
-          "type" : "integer",
-          "format" : "int64"
+          "format" : "int64",
+          "type" : "integer"
         },
         "productId" : {
           "type" : "string"
@@ -3727,12 +4202,12 @@
       "type" : "object",
       "properties" : {
         "bleed" : {
-          "type" : "number",
-          "format" : "double"
+          "format" : "double",
+          "type" : "number"
         },
         "calcMethodId" : {
-          "type" : "integer",
-          "format" : "int32"
+          "format" : "int32",
+          "type" : "integer"
         },
         "chargeExclusions" : {
           "type" : "string"
@@ -3747,27 +4222,27 @@
           "type" : "string"
         },
         "createdOn" : {
-          "type" : "string",
-          "format" : "date-time"
+          "format" : "date-time",
+          "type" : "string"
         },
         "designer" : {
           "type" : "boolean"
         },
         "dividerLength" : {
-          "type" : "number",
-          "format" : "double"
+          "format" : "double",
+          "type" : "number"
         },
         "dividerWidth" : {
-          "type" : "number",
-          "format" : "double"
+          "format" : "double",
+          "type" : "number"
         },
         "foldHeight" : {
-          "type" : "number",
-          "format" : "double"
+          "format" : "double",
+          "type" : "number"
         },
         "foldWidth" : {
-          "type" : "number",
-          "format" : "double"
+          "format" : "double",
+          "type" : "number"
         },
         "friendlyName" : {
           "type" : "string"
@@ -3776,8 +4251,8 @@
           "type" : "string"
         },
         "height" : {
-          "type" : "number",
-          "format" : "double"
+          "format" : "double",
+          "type" : "number"
         },
         "imageUrl" : {
           "type" : "string"
@@ -3789,35 +4264,35 @@
           "type" : "string"
         },
         "maxHeight" : {
-          "type" : "number",
-          "format" : "double"
+          "format" : "double",
+          "type" : "number"
         },
         "maxTurnTime" : {
-          "type" : "integer",
-          "format" : "int32"
+          "format" : "int32",
+          "type" : "integer"
         },
         "maxWidth" : {
-          "type" : "number",
-          "format" : "double"
+          "format" : "double",
+          "type" : "number"
         },
         "minHeight" : {
-          "type" : "number",
-          "format" : "double"
+          "format" : "double",
+          "type" : "number"
         },
         "minTurnTime" : {
-          "type" : "integer",
-          "format" : "int32"
+          "format" : "int32",
+          "type" : "integer"
         },
         "minWidth" : {
-          "type" : "number",
-          "format" : "double"
+          "format" : "double",
+          "type" : "number"
         },
         "partNo" : {
           "type" : "string"
         },
         "printType" : {
-          "type" : "integer",
-          "format" : "int32"
+          "format" : "int32",
+          "type" : "integer"
         },
         "prodCatId" : {
           "type" : "string"
@@ -3835,8 +4310,8 @@
           "type" : "string"
         },
         "productionLineId" : {
-          "type" : "integer",
-          "format" : "int32"
+          "format" : "int32",
+          "type" : "integer"
         },
         "productionType" : {
           "type" : "string"
@@ -3845,44 +4320,44 @@
           "type" : "string"
         },
         "rank" : {
-          "type" : "integer",
-          "format" : "int32"
+          "format" : "int32",
+          "type" : "integer"
         },
         "safeArea" : {
-          "type" : "number",
-          "format" : "double"
+          "format" : "double",
+          "type" : "number"
         },
         "status" : {
           "type" : "string"
         },
         "taxStatus" : {
-          "type" : "integer",
-          "format" : "int32"
+          "format" : "int32",
+          "type" : "integer"
         },
         "templateId" : {
           "type" : "string"
         },
         "unitId" : {
-          "type" : "integer",
-          "format" : "int32"
+          "format" : "int32",
+          "type" : "integer"
         },
         "updatedBy" : {
           "type" : "string"
         },
         "updatedOn" : {
-          "type" : "string",
-          "format" : "date-time"
+          "format" : "date-time",
+          "type" : "string"
         },
         "vars" : {
           "type" : "string"
         },
         "version" : {
-          "type" : "integer",
-          "format" : "int32"
+          "format" : "int32",
+          "type" : "integer"
         },
         "width" : {
-          "type" : "number",
-          "format" : "double"
+          "format" : "double",
+          "type" : "number"
         },
         "productVariations" : {
           "type" : "array",
@@ -3899,22 +4374,21 @@
           "type" : "string"
         },
         "createdOn" : {
-          "type" : "string",
-          "format" : "date-time"
+          "format" : "date-time",
+          "type" : "string"
         },
         "curJLId" : {
           "type" : "string"
         },
         "shippingMethodId" : {
-          "type" : "object",
-          "properties" : { }
+          "type" : "object"
         },
         "orderId" : {
           "type" : "string"
         },
         "recordID" : {
-          "type" : "integer",
-          "format" : "int32"
+          "format" : "int32",
+          "type" : "integer"
         },
         "fdpath" : {
           "type" : "string"
@@ -3932,8 +4406,8 @@
           "type" : "string"
         },
         "prodQty" : {
-          "type" : "integer",
-          "format" : "int32"
+          "format" : "int32",
+          "type" : "integer"
         },
         "paperTypeId" : {
           "type" : "string"
@@ -3954,19 +4428,19 @@
           "type" : "string"
         },
         "printBy" : {
-          "type" : "string",
-          "format" : "date-time"
+          "format" : "date-time",
+          "type" : "string"
         },
         "compBy" : {
-          "type" : "string",
-          "format" : "date-time"
+          "format" : "date-time",
+          "type" : "string"
         },
         "firstJLId" : {
           "type" : "string"
         },
         "orderExists" : {
-          "type" : "integer",
-          "format" : "int32"
+          "format" : "int32",
+          "type" : "integer"
         },
         "imageSource" : {
           "type" : "string"
@@ -3987,16 +4461,16 @@
           "type" : "string"
         },
         "height" : {
-          "type" : "number",
-          "format" : "double"
+          "format" : "double",
+          "type" : "number"
         },
         "width" : {
-          "type" : "number",
-          "format" : "double"
+          "format" : "double",
+          "type" : "number"
         },
         "calcMethodId" : {
-          "type" : "integer",
-          "format" : "int32"
+          "format" : "int32",
+          "type" : "integer"
         },
         "jobTitle" : {
           "type" : "string"
@@ -4014,34 +4488,28 @@
           "type" : "string"
         },
         "proofFrontDesign" : {
-          "type" : "object",
-          "properties" : { }
+          "type" : "object"
         },
         "proofBackDesign" : {
-          "type" : "object",
-          "properties" : { }
+          "type" : "object"
         },
         "printFrontDesign" : {
           "type" : "string"
         },
         "printBackDesign" : {
-          "type" : "object",
-          "properties" : { }
+          "type" : "object"
         },
         "frontThumbUrl" : {
-          "type" : "object",
-          "properties" : { }
+          "type" : "object"
         },
         "backThumbUrl" : {
-          "type" : "object",
-          "properties" : { }
+          "type" : "object"
         },
         "originalFrontDesign" : {
           "type" : "string"
         },
         "originalBackDesign" : {
-          "type" : "object",
-          "properties" : { }
+          "type" : "object"
         },
         "mandChargesIds" : {
           "type" : "string"
@@ -4056,23 +4524,23 @@
           "type" : "boolean"
         },
         "productionDays" : {
-          "type" : "integer",
-          "format" : "int32"
+          "format" : "int32",
+          "type" : "integer"
         },
         "turnaroundType" : {
           "type" : "string"
         },
         "turnaroundDays" : {
-          "type" : "integer",
-          "format" : "int32"
+          "format" : "int32",
+          "type" : "integer"
         },
         "proofStatus" : {
-          "type" : "integer",
-          "format" : "int32"
+          "format" : "int32",
+          "type" : "integer"
         },
         "proofType" : {
-          "type" : "integer",
-          "format" : "int32"
+          "format" : "int32",
+          "type" : "integer"
         },
         "splited" : {
           "type" : "boolean"
@@ -4081,24 +4549,19 @@
           "type" : "boolean"
         },
         "sample1" : {
-          "type" : "object",
-          "properties" : { }
+          "type" : "object"
         },
         "sample2" : {
-          "type" : "object",
-          "properties" : { }
+          "type" : "object"
         },
         "resources" : {
-          "type" : "object",
-          "properties" : { }
+          "type" : "object"
         },
         "spotUVFront" : {
-          "type" : "object",
-          "properties" : { }
+          "type" : "object"
         },
         "spotUVBack" : {
-          "type" : "object",
-          "properties" : { }
+          "type" : "object"
         },
         "otherJobs" : {
           "type" : "array",
@@ -4118,8 +4581,8 @@
           "type" : "string"
         },
         "invoiceId" : {
-          "type" : "integer",
-          "format" : "int32"
+          "format" : "int32",
+          "type" : "integer"
         },
         "title" : {
           "type" : "string"
@@ -4154,8 +4617,8 @@
           "type" : "string"
         },
         "memberId" : {
-          "type" : "integer",
-          "format" : "int32"
+          "format" : "int32",
+          "type" : "integer"
         },
         "memberName" : {
           "type" : "string"
