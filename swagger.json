@@ -1495,7 +1495,10 @@
         } ],
         "responses" : {
           "200" : {
-            "description" : "OK"
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/MRMUser"
+            }
           },
           "404" : {
             "description" : "NotFound"
