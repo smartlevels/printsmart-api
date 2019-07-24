@@ -1642,10 +1642,16 @@
         } ],
         "responses" : {
           "200" : {
-            "description" : "OK"
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/ShipEstimateResponse"
+            }
           },
           "400" : {
-            "description" : "BadRequest"
+            "description" : "BadRequest",
+            "schema" : {
+              "$ref" : "#/definitions/ApiError"
+            }
           }
         },
         "security" : [ {
@@ -4392,6 +4398,27 @@
           "items" : {
             "$ref" : "#/definitions/ProductVariation"
           }
+        }
+      }
+    },
+    "ShipEstimateResponse" : {
+      "description" : "A ship estimate response.",
+      "type" : "object",
+      "properties" : {
+        "data" : {
+          "description" : "Gets or sets The payload of the response.",
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/ShippingOption"
+          }
+        },
+        "message" : {
+          "description" : "Gets or sets Message of the response, maybe be empty.",
+          "type" : "string"
+        },
+        "status" : {
+          "description" : "Gets or sets status of the API response.",
+          "type" : "string"
         }
       }
     },
