@@ -1824,7 +1824,7 @@
           "maxLength" : 35
         }
       },
-      "description" : "Model for Password Reset Request"
+      "description" : "Model for the Password Reset Request"
     },
     "CancellationToken" : {
       "type" : "object",
