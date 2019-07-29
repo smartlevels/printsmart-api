@@ -1807,47 +1807,6 @@
         }
       }
     },
-    "CancellationToken" : {
-      "type" : "object",
-      "properties" : {
-        "isCancellationRequested" : {
-          "type" : "boolean",
-          "readOnly" : true
-        },
-        "canBeCanceled" : {
-          "type" : "boolean",
-          "readOnly" : true
-        },
-        "waitHandle" : {
-          "$ref" : "#/definitions/WaitHandle",
-          "readOnly" : true
-        }
-      }
-    },
-    "WaitHandle" : {
-      "type" : "object",
-      "properties" : {
-        "handle" : {
-          "type" : "object"
-        },
-        "safeWaitHandle" : {
-          "$ref" : "#/definitions/SafeWaitHandle"
-        }
-      }
-    },
-    "SafeWaitHandle" : {
-      "type" : "object",
-      "properties" : {
-        "isInvalid" : {
-          "type" : "boolean",
-          "readOnly" : true
-        },
-        "isClosed" : {
-          "type" : "boolean",
-          "readOnly" : true
-        }
-      }
-    },
     "BooleanResponse" : {
       "description" : "An API response yielding a boolean",
       "type" : "object",
