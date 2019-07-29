@@ -3600,8 +3600,7 @@
       "type" : "object",
       "properties" : {
         "data" : {
-          "$ref" : "#/definitions/Member",
-          "description" : "Gets or sets The payload of the response."
+          "$ref" : "#/definitions/Member"
         },
         "message" : {
           "description" : "Gets or sets Message of the response, maybe be empty.",
