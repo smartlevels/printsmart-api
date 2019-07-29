@@ -1964,8 +1964,7 @@
       "type" : "object",
       "properties" : {
         "data" : {
-          "$ref" : "#/definitions/AddressSearchResult",
-          "description" : "Gets or sets The payload of the response."
+          "$ref" : "#/definitions/AddressSearchResult"
         },
         "message" : {
           "description" : "Gets or sets Message of the response, maybe be empty.",
