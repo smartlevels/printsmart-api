@@ -2105,8 +2105,7 @@
       "type" : "object",
       "properties" : {
         "data" : {
-          "$ref" : "#/definitions/ShopCart",
-          "description" : "Gets or sets The payload of the response."
+          "$ref" : "#/definitions/ShopCart"
         },
         "message" : {
           "description" : "Gets or sets Message of the response, maybe be empty.",
