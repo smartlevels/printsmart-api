@@ -3962,8 +3962,7 @@
       "type" : "object",
       "properties" : {
         "category" : {
-          "$ref" : "#/definitions/TagCategory",
-          "description" : "Tag Category for the tag"
+          "$ref" : "#/definitions/TagCategory"
         },
         "description" : {
           "description" : "Tag description",
@@ -4042,8 +4041,7 @@
       "type" : "object",
       "properties" : {
         "data" : {
-          "$ref" : "#/definitions/ProductViewModel",
-          "description" : "Gets or sets The payload of the response."
+          "$ref" : "#/definitions/ProductViewModel"
         },
         "message" : {
           "description" : "Gets or sets Message of the response, maybe be empty.",
@@ -4146,8 +4144,7 @@
       "type" : "object",
       "properties" : {
         "data" : {
-          "$ref" : "#/definitions/ProductVariation",
-          "description" : "Gets or sets The payload of the response."
+          "$ref" : "#/definitions/ProductVariation"
         },
         "message" : {
           "description" : "Gets or sets Message of the response, maybe be empty.",
