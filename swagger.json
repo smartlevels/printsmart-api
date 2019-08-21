@@ -1,17 +1,42 @@
 {
   "swagger" : "2.0",
   "info" : {
-    "version" : "1",
-    "title" : "PrintSmartRestApi"
+    "title" : "PrintSmart REST API",
+    "version" : "v2"
   },
-  "host" : "localhost:40001",
-  "schemes" : [ "http" ],
+  "host" : "api.printsmart.com",
+  "basePath" : "/web/v1",
+  "schemes" : [ "https" ],
+  "securityDefinitions" : {
+    "apiKeyHeader" : {
+      "type" : "apiKey",
+      "name" : "Ocp-Apim-Subscription-Key",
+      "in" : "header"
+    },
+    "apiKeyQuery" : {
+      "type" : "apiKey",
+      "name" : "subscription-key",
+      "in" : "query"
+    },
+    "oauth2" : {
+      "type" : "oauth2",
+      "scopes" : { },
+      "flow" : "password",
+      "tokenUrl" : "https://us-01-api.printsmart.com/token"
+    }
+  },
+  "security" : [ {
+    "apiKeyHeader" : [ ],
+    "oauth2" : [ ]
+  }, {
+    "apiKeyQuery" : [ ]
+  } ],
   "paths" : {
     "/account/register" : {
       "post" : {
         "tags" : [ "Account" ],
         "summary" : "Register a PrintSmart User.",
-        "description" : "Registers the user with PrintSmart.",
+        "description" : "Registers the new user with PrintSmart.",
         "operationId" : "register",
         "consumes" : [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
         "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
@@ -383,13 +408,13 @@
           "200" : {
             "description" : "OK",
             "schema" : {
-              "type" : "object"
+              "$ref" : "#/definitions/ShopCartResponse"
             }
           },
           "202" : {
             "description" : "Accepted",
             "schema" : {
-              "$ref" : "#/definitions/GuidResponse"
+              "$ref" : "#/definitions/ShopCartResponse"
             }
           },
           "404" : {
@@ -434,7 +459,7 @@
           "202" : {
             "description" : "Accepted",
             "schema" : {
-              "$ref" : "#/definitions/StringResponse"
+              "$ref" : "#/definitions/ShopCartResponse"
             }
           },
           "404" : {
@@ -470,7 +495,7 @@
           "200" : {
             "description" : "OK",
             "schema" : {
-              "$ref" : "#/definitions/StringResponse"
+              "$ref" : "#/definitions/ShopCartResponse"
             }
           },
           "404" : {
@@ -940,8 +965,7 @@
     "/customers/{id}/contacts" : {
       "get" : {
         "tags" : [ "Customers" ],
-        "summary" : "update-customer",
-        "description" : "Puts the customer profile completing the sign-up process",
+        "summary" : "customer-contact",
         "operationId" : "customer-contacts",
         "consumes" : [ ],
         "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
@@ -1137,6 +1161,110 @@
         "security" : [ {
           "oauth2" : [ ]
         } ]
+      }
+    },
+    "/customers/sample-request" : {
+      "post" : {
+        "tags" : [ "Customers" ],
+        "summary" : "sample-request",
+        "description" : "(An Action that handles HTTP POST requests) request PrintSmart sample kit.",
+        "operationId" : "sample-request",
+        "consumes" : [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
+        "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
+        "parameters" : [ {
+          "name" : "sampleRequest",
+          "in" : "body",
+          "description" : "The sample request.",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/SampleRequestModel"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/BooleanResponse"
+            }
+          },
+          "400" : {
+            "description" : "BadRequest",
+            "schema" : {
+              "$ref" : "#/definitions/ApiError"
+            }
+          },
+          "404" : {
+            "description" : "NotFound"
+          }
+        }
+      }
+    },
+    "/customers/support-inquiry" : {
+      "post" : {
+        "tags" : [ "Customers" ],
+        "summary" : "support-inquiry",
+        "operationId" : "support-inquiry",
+        "consumes" : [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
+        "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
+        "parameters" : [ {
+          "name" : "supportInquiry",
+          "in" : "body",
+          "description" : "The support inquiry request.",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/SupportInquiry"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/BooleanResponse"
+            }
+          },
+          "400" : {
+            "description" : "BadRequest",
+            "schema" : {
+              "$ref" : "#/definitions/ApiError"
+            }
+          },
+          "404" : {
+            "description" : "NotFound"
+          }
+        }
+      }
+    },
+    "/customers/subscribe" : {
+      "post" : {
+        "tags" : [ "Customers" ],
+        "operationId" : "subscribe-email",
+        "consumes" : [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
+        "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
+        "parameters" : [ {
+          "name" : "subscriber",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/EmailSubscriber"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/BooleanResponse"
+            }
+          },
+          "400" : {
+            "description" : "BadRequest",
+            "schema" : {
+              "$ref" : "#/definitions/ApiError"
+            }
+          },
+          "404" : {
+            "description" : "NotFound"
+          }
+        }
       }
     },
     "/members" : {
@@ -1524,7 +1652,7 @@
           "200" : {
             "description" : "OK",
             "schema" : {
-              "$ref" : "#/definitions/CreateTagResponse"
+              "$ref" : "#/definitions/TagsCollection"
             }
           },
           "404" : {
@@ -1741,6 +1869,65 @@
           },
           "404" : {
             "description" : "NotFound"
+          }
+        }
+      }
+    },
+    "/token" : {
+      "post" : {
+        "description" : "Authenticate and retrieve bearer token",
+        "operationId" : "authenticate",
+        "summary" : "Authenticate",
+        "parameters" : [ {
+          "name" : "grant_type",
+          "in" : "formData",
+          "type" : "string"
+        }, {
+          "name" : "client_id",
+          "in" : "formData",
+          "type" : "string"
+        }, {
+          "name" : "username",
+          "in" : "formData",
+          "type" : "string"
+        }, {
+          "name" : "password",
+          "in" : "formData",
+          "type" : "string"
+        } ],
+        "consumes" : [ "application/x-www-form-urlencoded" ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/TokenResponse"
+            },
+            "examples" : {
+              "application/json" : {
+                "access_token" : "adfa...sdf",
+                "token_type" : "bearer",
+                "expires_in" : 17999,
+                "refresh_token" : "lrIcbpp..NWM",
+                "full_name" : "John Doe",
+                "contact_id" : "CT123456",
+                "customer_id" : "SL98745",
+                ".issued" : "Sun, 07 Oct 2019 02:22:50 GMT",
+                ".expires" : "Sun, 07 Oct 2019 07:22:50 GMT"
+              }
+            }
+          }
+        },
+        "produces" : [ "application/json" ]
+      }
+    },
+    "/pdf" : {
+      "post" : {
+        "description" : "get-invoice",
+        "operationId" : "get-invoice",
+        "summary" : "get-invoice",
+        "responses" : {
+          "200" : {
+            "description" : "OK"
           }
         }
       }
@@ -2350,6 +2537,9 @@
         },
         "formulaData" : {
           "type" : "string"
+        },
+        "required" : {
+          "type" : "boolean"
         }
       }
     },
@@ -2362,26 +2552,6 @@
         },
         "cartItem" : {
           "$ref" : "#/definitions/ShopCartItem"
-        }
-      }
-    },
-    "GuidResponse" : {
-      "description" : "An API response yielding a GUID",
-      "type" : "object",
-      "properties" : {
-        "data" : {
-          "format" : "uuid",
-          "description" : "Gets or sets The payload of the response.",
-          "type" : "string",
-          "example" : "00000000-0000-0000-0000-000000000000"
-        },
-        "message" : {
-          "description" : "Gets or sets Message of the response, maybe be empty.",
-          "type" : "string"
-        },
-        "status" : {
-          "description" : "Gets or sets status of the API response.",
-          "type" : "string"
         }
       }
     },
@@ -2574,8 +2744,7 @@
       "type" : "object",
       "properties" : {
         "data" : {
-          "$ref" : "#/definitions/CouponDto",
-          "description" : "Gets or sets The payload of the response."
+          "$ref" : "#/definitions/CouponDto"
         },
         "message" : {
           "description" : "Gets or sets Message of the response, maybe be empty.",
@@ -2685,8 +2854,7 @@
       "type" : "object",
       "properties" : {
         "data" : {
-          "$ref" : "#/definitions/ContentPageModel",
-          "description" : "Gets or sets The payload of the response."
+          "$ref" : "#/definitions/ContentPageModel"
         },
         "message" : {
           "description" : "Gets or sets Message of the response, maybe be empty.",
@@ -2720,8 +2888,7 @@
       "type" : "object",
       "properties" : {
         "data" : {
-          "$ref" : "#/definitions/SiteInfo",
-          "description" : "Gets or sets The payload of the response."
+          "$ref" : "#/definitions/SiteInfo"
         },
         "message" : {
           "description" : "Gets or sets Message of the response, maybe be empty.",
@@ -2748,11 +2915,9 @@
       "type" : "object",
       "properties" : {
         "pagination" : {
-          "$ref" : "#/definitions/Pagination",
-          "description" : "Gets or sets the pagination of the results."
+          "$ref" : "#/definitions/Pagination"
         },
         "data" : {
-          "description" : "Gets or sets The payload of the response.",
           "type" : "array",
           "items" : {
             "$ref" : "#/definitions/CustomerViewModel"
@@ -2876,8 +3041,7 @@
       "type" : "object",
       "properties" : {
         "data" : {
-          "$ref" : "#/definitions/CustomerViewModel",
-          "description" : "Gets or sets The payload of the response."
+          "$ref" : "#/definitions/CustomerViewModel"
         },
         "message" : {
           "description" : "Gets or sets Message of the response, maybe be empty.",
@@ -3056,8 +3220,7 @@
       "type" : "object",
       "properties" : {
         "data" : {
-          "$ref" : "#/definitions/CustomerDto",
-          "description" : "Gets or sets The payload of the response."
+          "$ref" : "#/definitions/CustomerDto"
         },
         "message" : {
           "description" : "Gets or sets Message of the response, maybe be empty.",
@@ -3351,8 +3514,7 @@
       "type" : "object",
       "properties" : {
         "data" : {
-          "$ref" : "#/definitions/AccountRep",
-          "description" : "Gets or sets The payload of the response."
+          "$ref" : "#/definitions/AccountRep"
         },
         "message" : {
           "description" : "Gets or sets Message of the response, maybe be empty.",
@@ -3500,8 +3662,7 @@
       "type" : "object",
       "properties" : {
         "data" : {
-          "$ref" : "#/definitions/AddressDto",
-          "description" : "Gets or sets The payload of the response."
+          "$ref" : "#/definitions/AddressDto"
         },
         "message" : {
           "description" : "Gets or sets Message of the response, maybe be empty.",
@@ -3509,6 +3670,78 @@
         },
         "status" : {
           "description" : "Gets or sets status of the API response.",
+          "type" : "string"
+        }
+      }
+    },
+    "SampleRequestModel" : {
+      "type" : "object",
+      "properties" : {
+        "company" : {
+          "type" : "string"
+        },
+        "address" : {
+          "type" : "string"
+        },
+        "city" : {
+          "type" : "string"
+        },
+        "stateId" : {
+          "type" : "string"
+        },
+        "zipCode" : {
+          "type" : "string"
+        },
+        "firstName" : {
+          "type" : "string"
+        },
+        "lastName" : {
+          "type" : "string"
+        },
+        "email" : {
+          "type" : "string"
+        },
+        "phone" : {
+          "type" : "string"
+        },
+        "interestedProduct" : {
+          "type" : "string"
+        },
+        "referredFrom" : {
+          "type" : "string"
+        }
+      }
+    },
+    "SupportInquiry" : {
+      "type" : "object",
+      "properties" : {
+        "name" : {
+          "type" : "string"
+        },
+        "email" : {
+          "type" : "string"
+        },
+        "phoneNumber" : {
+          "type" : "string"
+        },
+        "ipAddress" : {
+          "type" : "string"
+        },
+        "content" : {
+          "type" : "string"
+        }
+      }
+    },
+    "EmailSubscriber" : {
+      "type" : "object",
+      "properties" : {
+        "firstName" : {
+          "type" : "string"
+        },
+        "lastName" : {
+          "type" : "string"
+        },
+        "email" : {
           "type" : "string"
         }
       }
@@ -3935,21 +4168,37 @@
       }
     },
     "TagContactInfo" : {
-      "description" : "The Infusionsoft Contact to Tag with Dynamic Tag",
+      "description" : "Information about the tag contact.",
       "type" : "object",
       "properties" : {
         "contactId" : {
           "format" : "int32",
-          "description" : "The infusionsoft contact id",
+          "description" : "Gets or sets the identifier of the contact.",
           "type" : "integer"
         },
         "orderNumber" : {
-          "description" : "The PrintSmart Order Number",
+          "description" : "Gets or sets the order number.",
           "type" : "string"
         },
-        "productName" : {
-          "description" : "The MarkoRubel Product Name",
-          "type" : "string"
+        "products" : {
+          "description" : "Gets or sets the products.",
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        }
+      }
+    },
+    "TagsCollection" : {
+      "description" : "Collection of tags.",
+      "type" : "object",
+      "properties" : {
+        "tagsResponses" : {
+          "description" : "Gets or sets the tags responses.",
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/CreateTagResponse"
+          }
         }
       }
     },
@@ -4620,18 +4869,40 @@
           "type" : "string"
         }
       }
-    }
-  },
-  "securityDefinitions" : {
-    "oauth2" : {
-      "type" : "oauth2",
-      "description" : "client credentials grant flow",
-      "flow" : "password",
-      "tokenUrl" : "http://localhost:40001/token",
-      "scopes" : {
-        "read" : "Read access to protected resources",
-        "write" : "Write access to protected resources"
+    },
+    "TokenResponse" : {
+      "type" : "object",
+      "properties" : {
+        "access_token" : {
+          "type" : "string"
+        },
+        "token_type" : {
+          "type" : "string"
+        },
+        "expires_in" : {
+          "format" : "int32",
+          "type" : "integer"
+        },
+        "refresh_token" : {
+          "type" : "string"
+        },
+        "full_name" : {
+          "type" : "string"
+        },
+        "contact_id" : {
+          "type" : "string"
+        },
+        "customer_id" : {
+          "type" : "string"
+        },
+        ".issued" : {
+          "type" : "string"
+        },
+        ".expires" : {
+          "type" : "string"
+        }
       }
     }
-  }
+  },
+  "tags" : [ ]
 }
