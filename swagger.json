@@ -36,7 +36,7 @@
       "post" : {
         "tags" : [ "Account" ],
         "summary" : "Register a PrintSmart User.",
-        "description" : "Registers the new user with PrintSmart.",
+        "description" : "Registers the user with PrintSmart.",
         "operationId" : "register",
         "consumes" : [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
         "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
@@ -1237,12 +1237,15 @@
     "/customers/subscribe" : {
       "post" : {
         "tags" : [ "Customers" ],
+        "summary" : "subscribe",
+        "description" : "subscribe",
         "operationId" : "subscribe-email",
         "consumes" : [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
         "produces" : [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters" : [ {
           "name" : "subscriber",
           "in" : "body",
+          "description" : "The subscriber.",
           "required" : true,
           "schema" : {
             "$ref" : "#/definitions/EmailSubscriber"
@@ -1252,7 +1255,7 @@
           "200" : {
             "description" : "OK",
             "schema" : {
-              "$ref" : "#/definitions/BooleanResponse"
+              "$ref" : "#/definitions/StringResponse"
             }
           },
           "400" : {
@@ -3680,13 +3683,13 @@
         "company" : {
           "type" : "string"
         },
-        "address" : {
+        "address1" : {
           "type" : "string"
         },
         "city" : {
           "type" : "string"
         },
-        "stateId" : {
+        "state" : {
           "type" : "string"
         },
         "zipCode" : {
